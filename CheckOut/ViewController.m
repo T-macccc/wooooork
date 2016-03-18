@@ -19,6 +19,9 @@
     UITextField *textField0;
     UITextField *textField1;
 }
+- (IBAction)ClickedSSS:(id)sender {
+    NSLog(@"swss");
+}
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [textField0 resignFirstResponder];
@@ -82,6 +85,8 @@
     UIView *view1 = [[UIView alloc]initWithFrame:CGRectMake(50, 270, 100, 100)];
     view1.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:view1];
+    
+
     
     // Do any additional setup after loading the view, typically from a nib.
 }

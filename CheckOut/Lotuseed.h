@@ -24,6 +24,7 @@
 @property (nonatomic, strong)UICollectionView *collectionView;
 @property (nonatomic, strong)id lastVC;
 @property (nonatomic, strong)id firstVC;
+@property (nonatomic, assign)BOOL hasNavigation;
 
 - (instancetype)initWithToken:(NSString *)apiToken launchOptions:(NSDictionary *)launchOptions;
 

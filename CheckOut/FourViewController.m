@@ -33,6 +33,21 @@
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"GradientCell"];
     
     [self.view addSubview:self.collectionView];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:@"four" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.view addSubview:button];
+    button.frame = CGRectMake(300, 300, 100, 50);
+    
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithTitle:@"right" style:UIBarButtonItemStyleDone target:self action:@selector(test)];
+    self.navigationItem.rightBarButtonItem = rightButton;
+    UINavigationBar *bar = self.navigationController.navigationBar;
+    
+}
+
+- (void)test{
+    NSLog(@"test");
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath{

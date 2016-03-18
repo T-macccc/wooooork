@@ -47,6 +47,8 @@
     if ([controller isKindOfClass:[UINavigationController class]]) {
         UINavigationController *nav = (UINavigationController *)controller;
         controller = nav.visibleViewController;
+        [Lotuseed sharedInstance].hasNavigation = YES;
+        
     }
     else if ([controller isKindOfClass:[UITabBarController class]]){
         UITabBarController *tbVC = (UITabBarController *)controller;
@@ -78,6 +80,7 @@
     if ([controller isKindOfClass:[UINavigationController class]]) {
         UINavigationController *nav = (UINavigationController *)controller;
         controller = nav.visibleViewController;
+        [Lotuseed sharedInstance].hasNavigation = YES;
     }
     else if ([controller isKindOfClass:[UITabBarController class]]){
         UITabBarController *tbVC = (UITabBarController *)controller;
@@ -95,9 +98,11 @@
 }
 
 + (void)invokeLotuseed:(id)controller{
+    
     if ([controller isKindOfClass:[UINavigationController class]]) {
         UINavigationController *n = (UINavigationController *)controller;
         controller = n.visibleViewController;
+        
     }
     Lotuseed *lotuseed = [Lotuseed new];
     
@@ -110,15 +115,47 @@
     else{
         [lotuseed gainTableViewAndIndexPath:controller];
     }
+    
+    UIViewController *root = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UINavigationController *navigationController;
+    
+    if ([root isKindOfClass:[UINavigationController class]]) {
+        navigationController = (UINavigationController *)root;
+    }
+    else if ([root isKindOfClass:[UITabBarController class]]){
+        UITabBarController *tbVC = (UITabBarController *)root;
+        NSLog(@"%@",tbVC.childViewControllers);
+//        navigationController = tbVC.childViewControllers[0];
+        for (int i = 0; i<[tbVC.childViewControllers count]; i++) {
+            navigationController = tbVC.childViewControllers[i];
+            NSLog(@"%@",navigationController.visibleViewController);
+            NSLog(@"%@",controller);
+            if (navigationController.visibleViewController == controller) {
+                break;
+            }
+        }
+    }
+    UINavigationBar *bar = navigationController.navigationBar;
+    for (int i = 0; i<[bar.items count]; i++) {
+        [[Lotuseed sharedInstance] buttonInvoke:bar.items[i]];
+    }
+//    NSLog(@"%@",bar.items);
+//    for (int i = 0; i < [[bar subviews] count]; i++) {
+//        id barSubViews = [bar subviews][i];
+//        if ([NSStringFromClass([barSubViews class]) isEqualToString:@"UINavigationButton"]) {
+//            [[Lotuseed sharedInstance] buttonInvoke:barSubViews];
+//        }
+//    }
+    
 }
 
 + (void)initialize{
     BOOL backgroundSupported = [Lotuseed isMulitaskingSupported];
     if (backgroundSupported) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addSelector) name:UIApplicationDidBecomeActiveNotification object:nil];
-        
-    }
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewControllerChanged:) name:UITouchPhaseBegan object:nil];
+    }
+    
     
 }
 
@@ -397,22 +434,49 @@
 }
 
 - (void)buttonInvoke:(UIButton *)sender{
-    
-    UIButton *button = (UIButton *)sender;
-    
-    NSString *name = button.titleLabel.text;
+    NSLog(@"%@",sender.class);
+    if ([sender isKindOfClass:[UIButton class]]) {
+        UIButton *button = (UIButton *)sender;
+        
+        //    NSString *title = [button titleForState:UIControlStateNormal];
+        //    NSLog(@"title:%@",title);
+        NSString *name = button.titleLabel.text;
+        
+        
+        if (name == nil) {
+            name = @"";
+        }
+        NSString *rect = [NSString stringWithFormat:@"%d,%d,%d,%d",(int)button.frame.origin.x,(int)button.frame.origin.y,(int)button.frame.size.width,(int)button.frame.size.height];
+        [[Lotuseed sharedInstance] track:@"UIButton" properties:@{
+                                                                  @"ButtonName":name,
+                                                                  @"ButtonInClass":@"UIButton",
+                                                                  @"path":[Lotuseed getControlPath:sender],
+                                                                  @"rect":rect
+                                                                  }];
 
-    if (name == nil) {
-        name = @"";
+    }else if ([NSStringFromClass([sender class]) isEqualToString:@"UIBarButtonItem"]){
+        UIBarButtonItem *barButtonItem = (UIBarButtonItem *)sender;
+        NSString *name = barButtonItem.title;
+        [[Lotuseed sharedInstance] track:@"UIBarButtonItem" properties:@{
+                                                                        @"ButtonName":name,
+                                                                        @"ButtonInClass":@"UIBarButtonItem",
+//                                                                        @"path":[Lotuseed getControlPath:sender]
+                                                                         }];
+    }else if ([NSStringFromClass([sender class]) isEqualToString:@"UINavigationItem"]){
+        UINavigationItem *item = (UINavigationItem *)sender;
+        NSString *name = item.title;
+        if (name == nil) {
+            name = @"";
+        }
+        [[Lotuseed sharedInstance] track:@"UINavigationItem" properties:@{
+                                                                         @"ButtonName":name,
+                                                                         @"ButtonInClass":@"UINavigationItem",
+                                                                         //                                                                        @"path":[Lotuseed getControlPath:sender]
+                                                                         }];
+
     }
-    NSString *rect = [NSString stringWithFormat:@"%d,%d,%d,%d",(int)button.frame.origin.x,(int)button.frame.origin.y,(int)button.frame.size.width,(int)button.frame.size.height];
-    [[Lotuseed sharedInstance] track:@"UIButton" properties:@{
-                                                              @"ButtonName":name,
-                                                              @"ButtonInClass":@"UIButton",
-                                                              @"path":[Lotuseed getControlPath:sender],
-                                                              @"rect":rect
-                                                              }];
-}
+    
+    }
 
 - (void)textFieldInvoke:(UITextField *)sender{
     if ([Lotuseed sharedInstance] == nil) {
@@ -512,7 +576,9 @@
     }
     
     else if ([obj isKindOfClass:[UIButton class]]){
-        
+        if ([NSStringFromClass([obj class])isEqualToString:@"UINavigationButton"] ) {
+            return children;
+        }
         [(UIButton *)obj addTarget:[Lotuseed sharedInstance]  action:@selector(buttonInvoke:) forControlEvents:UIControlEventTouchUpInside];
         
     }
