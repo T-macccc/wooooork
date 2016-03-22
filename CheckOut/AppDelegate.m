@@ -23,24 +23,24 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [Lotuseed sharedInstanceWithToken:@"ttttest"];
-    
-    UITabBarController *tb = [UITabBarController new];
-    
-    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    
-    ViewController *viewController = [[ViewController alloc]init];
-    UINavigationController *nav0 = [[UINavigationController alloc]initWithRootViewController:viewController];
-    nav0.title = @"first";
-    
-    NextViewController *nextViewController = [[NextViewController alloc]init];
-    UINavigationController *nav1 = [[UINavigationController alloc]initWithRootViewController:nextViewController];
-    nav1.title = @"second";
-    
-    [tb addChildViewController:nav0];
-    [tb addChildViewController:nav1];
-    
-    self.window.rootViewController = tb;
-    [self.window makeKeyAndVisible];
+//
+//    UITabBarController *tb = [UITabBarController new];
+//    
+//    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+//    
+//    ViewController *viewController = [[ViewController alloc]init];
+//    UINavigationController *nav0 = [[UINavigationController alloc]initWithRootViewController:viewController];
+//    nav0.title = @"first";
+//    
+//    NextViewController *nextViewController = [[NextViewController alloc]init];
+//    UINavigationController *nav1 = [[UINavigationController alloc]initWithRootViewController:nextViewController];
+//    nav1.title = @"second";
+//    
+//    [tb addChildViewController:nav0];
+//    [tb addChildViewController:nav1];
+//    
+//    self.window.rootViewController = tb;
+//    [self.window makeKeyAndVisible];
     
     // Override point for customization after application launch.
     return YES;

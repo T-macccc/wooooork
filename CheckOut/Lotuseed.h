@@ -25,6 +25,7 @@
 @property (nonatomic, strong)id lastVC;
 @property (nonatomic, strong)id firstVC;
 @property (nonatomic, assign)BOOL hasNavigation;
+@property (nonatomic, strong)UIBarButtonItem *buttonItem;
 
 - (instancetype)initWithToken:(NSString *)apiToken launchOptions:(NSDictionary *)launchOptions;
 

@@ -14,18 +14,23 @@
 
 @implementation Lotuseed
 {
-    UITabBar *tabbar;
-    NSArray *itemArray;//UITabBarItem数组，含有UITabBarButton的信息
-    NSInteger num ;//tabBarItem
+    Lotuseed *myLotuseed;
 }
 
 - (instancetype)init{
     if (self = [super init]) {
         _addTargetArray = [NSMutableArray array];
-        _tabBarButtonArray = [NSMutableArray array];
         _viewArray = [NSMutableArray array];
     }
     return self;
+}
+
++ (void)initialize{
+    BOOL backgroundSupported = [Lotuseed isMulitaskingSupported];
+    if (backgroundSupported) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addSelector) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewControllerChanged:) name:UITouchPhaseBegan object:nil];
+    }
 }
 
 //自动添加监控
@@ -44,26 +49,11 @@
     while (controller.presentedViewController) {
         controller = controller.presentedViewController;
     }
-    if ([controller isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *nav = (UINavigationController *)controller;
-        controller = nav.visibleViewController;
-        [Lotuseed sharedInstance].hasNavigation = YES;
-        
-    }
-    else if ([controller isKindOfClass:[UITabBarController class]]){
-        UITabBarController *tbVC = (UITabBarController *)controller;
-        controller = tbVC.childViewControllerForStatusBarHidden;
-        if ([controller isKindOfClass:[UINavigationController class]]) {
-            UINavigationController *n = (UINavigationController *)controller;
-            controller = n.visibleViewController;
-        }
-        }
-    
     if (controller != [Lotuseed sharedInstance].lastVC) {
         
         [Lotuseed sharedInstance].lastVC = controller;
         
-        [Lotuseed invokeLotuseed:controller];
+        [[Lotuseed sharedInstance] invokeLotuseed:controller];
         [[Lotuseed sharedInstance] performSelector:@selector(changeValue:) withObject:controller afterDelay:1.0];
     }
 }
@@ -77,102 +67,36 @@
     while (controller.presentedViewController) {
         controller = controller.presentedViewController;
     }
-    if ([controller isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *nav = (UINavigationController *)controller;
-        controller = nav.visibleViewController;
-        [Lotuseed sharedInstance].hasNavigation = YES;
-    }
-    else if ([controller isKindOfClass:[UITabBarController class]]){
-        UITabBarController *tbVC = (UITabBarController *)controller;
-        
-        [Lotuseed invokeLotuseed:controller];
-        
-        controller = tbVC.childViewControllerForStatusBarHidden;
-        return;
-    }
     
+    [[Lotuseed sharedInstance] invokeLotuseed:controller];
     [Lotuseed sharedInstance].lastVC = controller;
     [Lotuseed sharedInstance].firstVC = controller;
-    
-    [Lotuseed invokeLotuseed:controller];
 }
 
-+ (void)invokeLotuseed:(id)controller{
+- (void)invokeLotuseed:(id)controller{
     
-    if ([controller isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *n = (UINavigationController *)controller;
-        controller = n.visibleViewController;
-        
-    }
     Lotuseed *lotuseed = [Lotuseed new];
     
     [lotuseed severalGetobj:controller];
+    
     if (([Lotuseed sharedInstance].tableView || [Lotuseed
                                                  sharedInstance].collectionView) != 1)
     {
         [lotuseed severalGetChild:controller];
     }
-    else{
-        [lotuseed gainTableViewAndIndexPath:controller];
+    else
+    {
+        [self addObserver:[Lotuseed sharedInstance] forKeyPath:@"lastVC" options:0 context:NULL];
+//        [lotuseed gainTableViewAndIndexPath:controller];
     }
-    
-    UIViewController *root = [UIApplication sharedApplication].keyWindow.rootViewController;
-    UINavigationController *navigationController;
-    
-    if ([root isKindOfClass:[UINavigationController class]]) {
-        navigationController = (UINavigationController *)root;
-    }
-    else if ([root isKindOfClass:[UITabBarController class]]){
-        UITabBarController *tbVC = (UITabBarController *)root;
-        NSLog(@"%@",tbVC.childViewControllers);
-//        navigationController = tbVC.childViewControllers[0];
-        for (int i = 0; i<[tbVC.childViewControllers count]; i++) {
-            navigationController = tbVC.childViewControllers[i];
-            NSLog(@"%@",navigationController.visibleViewController);
-            NSLog(@"%@",controller);
-            if (navigationController.visibleViewController == controller) {
-                break;
-            }
-        }
-    }
-    UINavigationBar *bar = navigationController.navigationBar;
-    for (int i = 0; i<[bar.items count]; i++) {
-        [[Lotuseed sharedInstance] buttonInvoke:bar.items[i]];
-    }
-//    NSLog(@"%@",bar.items);
-//    for (int i = 0; i < [[bar subviews] count]; i++) {
-//        id barSubViews = [bar subviews][i];
-//        if ([NSStringFromClass([barSubViews class]) isEqualToString:@"UINavigationButton"]) {
-//            [[Lotuseed sharedInstance] buttonInvoke:barSubViews];
-//        }
-//    }
-    
 }
 
-+ (void)initialize{
-    BOOL backgroundSupported = [Lotuseed isMulitaskingSupported];
-    if (backgroundSupported) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addSelector) name:UIApplicationDidBecomeActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewControllerChanged:) name:UITouchPhaseBegan object:nil];
-    }
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
     
-    
+        [self gainTableViewAndIndexPath:[Lotuseed sharedInstance].firstVC];
 }
 
 //获取以property存在array里的indexPath;
-- (NSArray *)getAllProperties:(id)something{//获取对象的所有属性，不包括属性值
-    u_int count;
-    objc_property_t *properties = class_copyPropertyList([something class], &count);
-    NSMutableArray *propertiesArray = [NSMutableArray arrayWithCapacity:count];
-    for (int i = 0; i<count; i++) {
-        const char *propertyName = property_getName(properties[i]);
-        [propertiesArray addObject:[NSString stringWithUTF8String:propertyName]];
-    }
-    
-    free(properties);
-    return propertiesArray;
-}
-
 - (NSDictionary *)properties_aps:(id)something{//获取对象的所有属性，及属性值
     NSMutableDictionary *props = [NSMutableDictionary dictionary];
     unsigned int outCount,i;
@@ -191,15 +115,6 @@
 }
 
 - (void)gainTableViewAndIndexPath:(id)something{//获得IndexPath的array
-    UITabBarController *TBC = (UITabBarController *)something;
-    
-    if ([something isKindOfClass:[UITabBarController class]]) {
-        something = TBC.childViewControllerForStatusBarHidden;
-    }
-    if ([something isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *nav = (UINavigationController *)something;
-        something = nav.visibleViewController;
-    }
     Lotuseed *lotuseed = [Lotuseed new];
     
     NSDictionary *dic = [lotuseed properties_aps:something];
@@ -251,20 +166,7 @@
         
             [children addObject:viewController.view];
     }
-//    NSArray *result;
-//    if ([class isSubclassOfClass:[UITableViewCell class]]) {
-//        result = [children sortedArrayUsingComparator:^NSComparisonResult(UIView *obj1, UIView *obj2) {
-//            if (obj2.frame.origin.y > obj1.frame.origin.y) {
-//                return NSOrderedAscending;
-//            }
-//            else if (obj2.frame.origin.y < obj1.frame.origin.y){
-//                return NSOrderedDescending;
-//            }
-//            return NSOrderedSame;
-//        }];
-//    }else{
-//        result = [children copy];
-//    }
+
     return [children copy];
 }
 
@@ -376,34 +278,7 @@
 
 //添加监控
 
-- (void)SegmentControlInvoke{
-    if ([Lotuseed sharedInstance] == nil) {
-        NSLog(@"单例为空");
-    }
-    NSLog(@"touch seg");
-}
-
-- (void)tabBarButtonInvoke:(id)sender{
-    if ([Lotuseed sharedInstance] == nil) {
-        NSLog(@"单例为空");
-    }
-    
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    UITabBarController *tabBarC = (UITabBarController *)window.rootViewController;
-    NSUInteger n = tabBarC.selectedIndex;
-    
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Lotuseed sharedInstance].tabBarButtonArray[n]];
-    NSDictionary *dic1 = @{
-                   @"path":[Lotuseed getControlPath:sender]
-                   };
-    
-    [dic addEntriesFromDictionary:dic1];
-    
-    [[Lotuseed new] track:@"UITabBarButton" properties:dic];
-}
-
 + (NSString *)getControlPath:(id)sender{
-    NSLog(@"%@",[Lotuseed sharedInstance].firstVC);
     UIView *view = [[Lotuseed sharedInstance].firstVC view];
     NSString *senderPath = nil;
     BOOL keepOn = 1;
@@ -434,14 +309,10 @@
 }
 
 - (void)buttonInvoke:(UIButton *)sender{
-    NSLog(@"%@",sender.class);
     if ([sender isKindOfClass:[UIButton class]]) {
         UIButton *button = (UIButton *)sender;
-        
-        //    NSString *title = [button titleForState:UIControlStateNormal];
-        //    NSLog(@"title:%@",title);
+
         NSString *name = button.titleLabel.text;
-        
         
         if (name == nil) {
             name = @"";
@@ -453,30 +324,8 @@
                                                                   @"path":[Lotuseed getControlPath:sender],
                                                                   @"rect":rect
                                                                   }];
-
-    }else if ([NSStringFromClass([sender class]) isEqualToString:@"UIBarButtonItem"]){
-        UIBarButtonItem *barButtonItem = (UIBarButtonItem *)sender;
-        NSString *name = barButtonItem.title;
-        [[Lotuseed sharedInstance] track:@"UIBarButtonItem" properties:@{
-                                                                        @"ButtonName":name,
-                                                                        @"ButtonInClass":@"UIBarButtonItem",
-//                                                                        @"path":[Lotuseed getControlPath:sender]
-                                                                         }];
-    }else if ([NSStringFromClass([sender class]) isEqualToString:@"UINavigationItem"]){
-        UINavigationItem *item = (UINavigationItem *)sender;
-        NSString *name = item.title;
-        if (name == nil) {
-            name = @"";
-        }
-        [[Lotuseed sharedInstance] track:@"UINavigationItem" properties:@{
-                                                                         @"ButtonName":name,
-                                                                         @"ButtonInClass":@"UINavigationItem",
-                                                                         //                                                                        @"path":[Lotuseed getControlPath:sender]
-                                                                         }];
-
     }
-    
-    }
+}
 
 - (void)textFieldInvoke:(UITextField *)sender{
     if ([Lotuseed sharedInstance] == nil) {
@@ -511,10 +360,6 @@
 }
 
 - (NSArray *)getChildObj:(NSObject *)obj{
-    if ([obj isKindOfClass:[UITabBar class]]){
-        tabbar = (UITabBar *)obj;
-        itemArray = tabbar.items;
-    }
     
     NSMutableArray *children = [NSMutableArray array];
     if ([obj isKindOfClass:[UIViewController class]]) {
@@ -539,46 +384,7 @@
     {
         [Lotuseed sharedInstance].tableView = (UITableView *)obj;
     }
-//    else if ([obj isKindOfClass:NSClassFromString(@"UISegment")]){
-//        UISegmentedControl *seg = (UISegmentedControl *)obj;
-//        [seg addTarget:seg action:@selector(SegmentControlInvoke) forControlEvents:UIControlEventTouchUpInside];
-//    }
-    else if ([obj isKindOfClass:[UIToolbar class]]){
-        UIToolbar *toolBar = (UIToolbar *)obj;
-        for (int i = 0; i<[toolBar.items count]; i++) {
-            NSLog(@"%d,%@",i,toolBar.items[i]);
-            UIBarItem *item = toolBar.items[i];
-        }
-    }
-    else if ([obj isKindOfClass:[UISegmentedControl class]]){
-        UISegmentedControl *s = (UISegmentedControl *)obj;
-        [s addTarget:self action:@selector(SegmentControlInvoke) forControlEvents:UIControlEventValueChanged];
-    }
-    else if ([NSStringFromClass([obj class]) isEqualToString:@"UITabBarButton"]){
-        UIButton *button = (UIButton *)obj;
-        
-        UITabBarItem *item = itemArray[num];
-        NSString *name = item.title;
-        NSString *class = @"UITabBarButton";
-        
-        num++;
-        
-        if (name == nil) {
-            name = @"";
-        }
-        
-        [[Lotuseed sharedInstance].tabBarButtonArray addObject:@{
-                                                                 @"ButtonName":name,
-                                                                 @"ButtonInClass":class,
-                                                                 }];
-        
-        [button addTarget:[Lotuseed sharedInstance] action:@selector(tabBarButtonInvoke:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
     else if ([obj isKindOfClass:[UIButton class]]){
-        if ([NSStringFromClass([obj class])isEqualToString:@"UINavigationButton"] ) {
-            return children;
-        }
         [(UIButton *)obj addTarget:[Lotuseed sharedInstance]  action:@selector(buttonInvoke:) forControlEvents:UIControlEventTouchUpInside];
         
     }

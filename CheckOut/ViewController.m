@@ -9,6 +9,7 @@
 #import "ViewController.h"
 
 #import "FourViewController.h"
+#import "NextViewController.h"
 
 @interface ViewController ()
 
@@ -21,6 +22,7 @@
 }
 - (IBAction)ClickedSSS:(id)sender {
     NSLog(@"swss");
+    [self turn];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -30,8 +32,10 @@
 
 - (void)turn{
     FourViewController *four =  [[FourViewController alloc]init];
+    NextViewController *next = [NextViewController new];
     
-    [self.navigationController pushViewController:four animated:YES];
+//    [self.navigationController pushViewController:four animated:YES];
+    [self presentViewController:next animated:YES completion:nil];
 }
 
 - (void)action0{

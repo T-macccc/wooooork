@@ -15,7 +15,8 @@
 - (void)turn{
     ThirdViewController *thirdVC = [ThirdViewController new];
     
-    [self.navigationController pushViewController:thirdVC animated:YES];
+//    [self.navigationController pushViewController:thirdVC animated:YES];
+    [self presentViewController:thirdVC animated:YES completion:nil];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -104,6 +105,13 @@
     _indexPathArray = [[NSMutableArray alloc]init];
     
     self.view.backgroundColor = [UIColor whiteColor];
-}
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setFrame:CGRectMake(200, 400, 100, 50)];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setTitle:@"turn" forState:UIControlStateNormal];
+    [self.view addSubview:button];
+    [button addTarget:self action:@selector(turn) forControlEvents:UIControlEventTouchUpInside];
+     }
 
 @end
