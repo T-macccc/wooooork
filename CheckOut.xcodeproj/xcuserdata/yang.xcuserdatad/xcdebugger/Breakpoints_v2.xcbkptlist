@@ -20,12 +20,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CheckOut/Lotuseed.m"
-            timestampString = "480327523.216206"
+            timestampString = "480328875.16309"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "361"
-            endingLineNumber = "361"
-            landmarkName = "-getChildObj:"
+            startingLineNumber = "353"
+            endingLineNumber = "353"
+            landmarkName = "-textFieldInvoke:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -36,29 +36,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CheckOut/Lotuseed.m"
-            timestampString = "480327523.216206"
+            timestampString = "480328875.16309"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "515"
-            endingLineNumber = "515"
+            startingLineNumber = "507"
+            endingLineNumber = "507"
             landmarkName = "@implementation Lotuseed"
             landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CheckOut/Lotuseed.m"
-            timestampString = "480327523.216206"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
-            landmarkName = "+getControlPath:"
-            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

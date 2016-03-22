@@ -10,16 +10,10 @@
 #import <objc/runtime.h>
 #import "ViewController.h"
 
-#define VERSION @"1.0.0"
-
 @implementation Lotuseed
-{
-    Lotuseed *myLotuseed;
-}
 
 - (instancetype)init{
     if (self = [super init]) {
-        _addTargetArray = [NSMutableArray array];
         _viewArray = [NSMutableArray array];
     }
     return self;
@@ -278,6 +272,20 @@
 
 //添加监控
 
+- (void)generate:(id)VC{
+    
+    NSMutableArray *pathArray = [NSMutableArray array];
+    
+    pathArray = [self hierarchyAddObj:VC];
+    
+}
+
+- (NSMutableArray *)hierarchyAddObj:(id)obj{
+    NSMutableArray *array = [NSMutableArray array];
+    
+    return array;
+}
+
 + (NSString *)getControlPath:(id)sender{
     UIView *view = [[Lotuseed sharedInstance].firstVC view];
     NSString *senderPath = nil;
@@ -349,9 +357,7 @@
 - (void)severalGetobj:(NSObject *)obj{
     NSArray *array = [NSArray array];
     array = [self getChildObj:obj];
-    if (array.count != 0) {
-        [_addTargetArray addObjectsFromArray:array];
-    }
+
     if (array.count) {
         for (int i = 0; i<array.count; i++) {
             [self severalGetobj:array[i]];
@@ -411,7 +417,7 @@ static Lotuseed *sharedInstance = nil;
     if (self = [self init]) {
         self.apiToken = apiToken;
         NSString *label = [NSString stringWithFormat:@"com.lotuseed.%@.%p",apiToken,self];
-        self.serialQueue = dispatch_queue_create([label UTF8String], DISPATCH_QUEUE_SERIAL);
+//        self.serialQueue = dispatch_queue_create([label UTF8String], DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
@@ -478,7 +484,6 @@ static Lotuseed *sharedInstance = nil;
                             @"event":event,
                             @"properties":[NSDictionary dictionaryWithDictionary:p]
                             };
-        [self.eventQueue addObject:e];
     
     NSLog(@"is tracking :%@",e);
 }
