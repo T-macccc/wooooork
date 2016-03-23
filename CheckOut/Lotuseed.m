@@ -223,10 +223,12 @@
 }
 
 - (void)handleTableViewWithIndexArray:(NSArray *)indexArray{//indexPath
+    NSString *str = @"";
     if ([Lotuseed sharedInstance].tableView) {
         for (int i = 0; i<indexArray.count; i++) {
             id myCell = [[Lotuseed sharedInstance].tableView cellForRowAtIndexPath:indexArray[i]];
             
+            str = @"tableView";
             [self getChildOfCell:myCell];
         }
     }
@@ -234,10 +236,13 @@
         for (int i = 0; i<indexArray.count; i++) {
             id myCell = [[Lotuseed sharedInstance].collectionView cellForItemAtIndexPath:indexArray[i]];
             
+            str = @"collectionView";
             [self getChildOfCell:myCell];
         }
     }
-
+    
+    NSMutableArray *array = [NSMutableArray array];
+    
     for (id obj in self.viewArray) {
     
         if ([obj isKindOfClass:[UILabel class]])
@@ -245,27 +250,42 @@
             UILabel *label = obj;
             NSString *name = label.text;
             
-            NSLog(@"label:%@",name);
+            [array addObject:@{
+                              @"labelName":name
+                              }];
         }
-        
+        else if ([obj isKindOfClass:[UIButton class]])
+        {
+            UIButton *button = (UIButton *)obj;
+            NSString *title = button.titleLabel.text;
+            [array addObject:@{
+                               @"UIButton":title
+                               }];
+        }
         else if ([obj isKindOfClass:[UIImageView class]])
         {
             UIImageView *imageView = obj;
             UIImage *image = imageView.image;
             CGRect imageRect = imageView.frame;
             
-            NSLog(@"find imageView:%@",imageView);
+            [array addObject:@{
+                              
+                               }];
         }
         
         else if ([obj isKindOfClass:[UITextField class]])
         {
             UITextField *textField = obj;
-            CGRect textFieldRect = textField.frame;
             NSString *text = textField.text;
             
-            NSLog(@"find textField:%@,%@",textField,text);
+            [array addObject:@{
+                               @"text":text
+                               }];
         }
     }
+    [[Lotuseed sharedInstance] track:str properties:@{
+                                                     str:array
+                                                     }];
     
 }
 
@@ -285,8 +305,6 @@
 
         if (senderPath.length == 0) {
             NSString *beforeStr;
-            [Lotuseed sharedInstance].instanceArray = [NSMutableArray array];
-            [[Lotuseed sharedInstance].instanceArray addObject:passSender];
             if ([passSender isKindOfClass:[UIButton class]]) {
                 beforeStr = [NSString stringWithFormat:@"%@",[passSender class]];
             }
@@ -301,12 +319,8 @@
             senderPath = [NSString stringWithFormat:@"%@%ld-%@",senderPath,(long)order,[passSender superview].class];
             passSender = [passSender superview];
         }
-            [[Lotuseed sharedInstance].instanceArray addObject:passSender];
     }
     senderPath = [NSString stringWithFormat:@"%@-%@",senderPath,[[Lotuseed sharedInstance].firstVC class]];
-    [[Lotuseed sharedInstance].instanceArray addObject:[Lotuseed sharedInstance]
-     .lastVC];
-    NSLog(@"%@",[Lotuseed sharedInstance].instanceArray);
     
     return senderPath;
 }
@@ -376,7 +390,7 @@
     NSInteger index = [elementArray indexOfObject:origin];
     NSInteger order = 0;
     for (int i = 0; i<elementArray.count; i++) {
-        if (i == index) {
+        if (i == index) {//排序顺序x,y,width,height
             continue;
         }
         if ([controlArray[i][@"x"] doubleValue] < [controlArray[index][@"x"] doubleValue]) {
