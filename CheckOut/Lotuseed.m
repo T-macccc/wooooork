@@ -272,21 +272,8 @@
 
 //添加监控
 
-- (void)generate:(id)VC{
-    
-    NSMutableArray *pathArray = [NSMutableArray array];
-    
-    pathArray = [self hierarchyAddObj:VC];
-    
-}
-
-- (NSMutableArray *)hierarchyAddObj:(id)obj{
-    NSMutableArray *array = [NSMutableArray array];
-    
-    return array;
-}
-
 + (NSString *)getControlPath:(id)sender{
+    
     UIView *view = [[Lotuseed sharedInstance].firstVC view];
     NSString *senderPath = nil;
     BOOL keepOn = 1;
@@ -298,22 +285,149 @@
 
         if (senderPath.length == 0) {
             NSString *beforeStr;
+            [Lotuseed sharedInstance].instanceArray = [NSMutableArray array];
+            [[Lotuseed sharedInstance].instanceArray addObject:passSender];
             if ([passSender isKindOfClass:[UIButton class]]) {
-                UIButton *button = (UIButton *)passSender;
-                beforeStr = [NSString stringWithFormat:@"%@(%@)",[passSender class],button.titleLabel.text];
+                beforeStr = [NSString stringWithFormat:@"%@",[passSender class]];
             }
             else{
                 beforeStr = NSStringFromClass([passSender class]);
             }
-            senderPath = [NSString stringWithFormat:@"%@-%@",beforeStr,[passSender superview].class];
+            NSInteger order = [[Lotuseed new] controlGetDistinctId:[passSender superview] withCompareObj:passSender];
+            senderPath = [NSString stringWithFormat:@"%@%ld-%@",beforeStr,(long)order,[passSender superview].class];
             passSender = [passSender superview];
         }else{
-            senderPath = [NSString stringWithFormat:@"%@-%@",senderPath,[passSender superview].class];
+            NSInteger order = [[Lotuseed new] controlGetDistinctId:[passSender superview] withCompareObj:passSender];
+            senderPath = [NSString stringWithFormat:@"%@%ld-%@",senderPath,(long)order,[passSender superview].class];
             passSender = [passSender superview];
         }
+            [[Lotuseed sharedInstance].instanceArray addObject:passSender];
     }
     senderPath = [NSString stringWithFormat:@"%@-%@",senderPath,[[Lotuseed sharedInstance].firstVC class]];
+    [[Lotuseed sharedInstance].instanceArray addObject:[Lotuseed sharedInstance]
+     .lastVC];
+    NSLog(@"%@",[Lotuseed sharedInstance].instanceArray);
+    
     return senderPath;
+}
+
+- (NSInteger)controlGetDistinctId:(id)obj withCompareObj:(id)origin{
+    NSMutableArray *controlArray = [NSMutableArray array];
+    NSMutableArray *elementArray = [NSMutableArray array];
+    
+        [elementArray addObjectsFromArray:[obj subviews]];
+    
+    for (int i = 0; i<elementArray.count ; i++) {
+        id control = elementArray[i];
+        if ([control isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)control;
+            NSNumber *x = [NSNumber numberWithDouble:label.frame.origin.x];
+            NSNumber *y = [NSNumber numberWithDouble:label.frame.origin.y];
+            NSNumber *width = [NSNumber numberWithDouble:label.frame.size.width];
+            NSNumber *height = [NSNumber numberWithDouble:label.frame.size.height];
+            [controlArray addObject:@{
+                                      @"x":x,
+                                      @"y":y,
+                                      @"width":width,
+                                      @"height":height,
+                                      }];
+        }else if ([control isKindOfClass:[UIButton class]]){
+            UIButton *button = (UIButton *)control;
+            NSNumber *x = [NSNumber numberWithDouble:button.frame.origin.x];
+            NSNumber *y = [NSNumber numberWithDouble:button.frame.origin.y];
+            NSNumber *width = [NSNumber numberWithDouble:button.frame.size.width];
+            NSNumber *height = [NSNumber numberWithDouble:button.frame.size.height];
+            [controlArray addObject:@{
+                                      @"x":x,
+                                      @"y":y,
+                                      @"width":width,
+                                      @"height":height,
+                                      }];
+            
+        }else if ([control isKindOfClass:[UIView class]]){
+            UIView *view = (UIView *)control;
+            NSNumber *x = [NSNumber numberWithDouble:view.frame.origin.x];
+            NSNumber *y = [NSNumber numberWithDouble:view.frame.origin.y];
+            NSNumber *width = [NSNumber numberWithDouble:view.frame.size.width];
+            NSNumber *height = [NSNumber numberWithDouble:view.frame.size.height];
+            [controlArray addObject:@{
+                                      @"x":x,
+                                      @"y":y,
+                                      @"width":width,
+                                      @"height":height,
+                                      }];
+            
+        }else if ([control isKindOfClass:[UITextField class]]){
+            UITextField *textField = (UITextField *)control;
+            NSNumber *x = [NSNumber numberWithDouble:textField.frame.origin.x];
+            NSNumber *y = [NSNumber numberWithDouble:textField.frame.origin.y];
+            NSNumber *width = [NSNumber numberWithDouble:textField.frame.size.width];
+            NSNumber *height = [NSNumber numberWithDouble:textField.frame.size.height];
+            [controlArray addObject:@{
+                                      @"x":x,
+                                      @"y":y,
+                                      @"width":width,
+                                      @"height":height,
+                                      }];
+            
+        }
+    }
+    
+    NSInteger index = [elementArray indexOfObject:origin];
+    NSInteger order = 0;
+    for (int i = 0; i<elementArray.count; i++) {
+        if (i == index) {
+            continue;
+        }
+        if ([controlArray[i][@"x"] doubleValue] < [controlArray[index][@"x"] doubleValue]) {
+            NSLog(@"%f",[controlArray[i][@"x"] doubleValue]);
+            NSLog(@"%f",[controlArray[index][@"x"] doubleValue]);
+            
+            
+            order ++;
+        }
+        else if ([controlArray[i][@"x"] doubleValue] > [controlArray[index][@"x"] doubleValue]){
+            NSLog(@"%f",[controlArray[i][@"x"] doubleValue]);
+            NSLog(@"%f",[controlArray[index][@"x"] doubleValue]);
+            
+            continue;
+        }
+        else{
+            if ([controlArray[i][@"y"] doubleValue] < [controlArray[index][@"y"] doubleValue]) {
+                order ++;
+                NSLog(@"%f",[controlArray[i][@"y"] doubleValue]);
+                NSLog(@"%f",[controlArray[index][@"y"] doubleValue]);
+            }
+            else if ([controlArray[i][@"y"] doubleValue] > [controlArray[index][@"y"] doubleValue]){
+                NSLog(@"%f",[controlArray[i][@"y"] doubleValue]);
+                NSLog(@"%f",[controlArray[index][@"y"] doubleValue]);
+                continue;
+            }else{
+                if ([controlArray[i][@"width"] doubleValue] < [controlArray[index][@"width"] doubleValue]) {
+                    order ++;
+                    NSLog(@"%f",[controlArray[i][@"width"] doubleValue]);
+                    NSLog(@"%f",[controlArray[index][@"width"] doubleValue]);
+                }
+                else if ([controlArray[i][@"width"] doubleValue] > [controlArray[index][@"width"] doubleValue]){
+                    NSLog(@"%f",[controlArray[i][@"width"] doubleValue]);
+                    NSLog(@"%f",[controlArray[index][@"width"] doubleValue]);
+                    continue;
+                }
+                else{
+                    if ([controlArray[i][@"height"] doubleValue] < [controlArray[index][@"height"] doubleValue]) {
+                        order ++;
+                        NSLog(@"%f",[controlArray[i][@"height"] doubleValue]);
+                        NSLog(@"%f",[controlArray[index][@"height"] doubleValue]);
+                    }else if ([controlArray[i][@"height"] doubleValue] >[controlArray[index][@"height"] doubleValue]){
+                        NSLog(@"%f",[controlArray[i][@"height"] doubleValue]);
+                        NSLog(@"%f",[controlArray[index][@"height"] doubleValue]);
+                        continue;
+                    }
+                }
+            }
+        }
+    }
+    return order;
 }
 
 - (void)buttonInvoke:(UIButton *)sender{
