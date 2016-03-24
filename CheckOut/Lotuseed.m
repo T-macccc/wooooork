@@ -8,7 +8,6 @@
 
 #import "Lotuseed.h"
 #import <objc/runtime.h>
-#import "ViewController.h"
 
 @implementation Lotuseed
 
@@ -68,25 +67,21 @@
 }
 
 - (void)invokeLotuseed:(id)controller{
-    
-    Lotuseed *lotuseed = [Lotuseed new];
-    
-    [lotuseed severalGetobj:controller];
+
+    [self severalGetobj:controller];
     
     if (([Lotuseed sharedInstance].tableView || [Lotuseed
                                                  sharedInstance].collectionView) != 1)
     {
-        [lotuseed severalGetChild:controller];
+        [self severalGetChild:controller];
     }
     else
     {
         [self addObserver:[Lotuseed sharedInstance] forKeyPath:@"lastVC" options:0 context:NULL];
-//        [lotuseed gainTableViewAndIndexPath:controller];
     }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
-    
         [self gainTableViewAndIndexPath:[Lotuseed sharedInstance].firstVC];
 }
 
@@ -109,9 +104,8 @@
 }
 
 - (void)gainTableViewAndIndexPath:(id)something{//获得IndexPath的array
-    Lotuseed *lotuseed = [Lotuseed new];
     
-    NSDictionary *dic = [lotuseed properties_aps:something];
+    NSDictionary *dic = [self properties_aps:something];
     for (id obj in dic)
     {
         if ([NSStringFromClass([dic[obj] class]) isEqualToString:@"__NSArrayM"] || [NSStringFromClass([dic[obj] class]) isEqualToString:@"__NSArrayI"])
@@ -120,9 +114,6 @@
             if (array.count) {
                 if ([array[0] class] == [NSIndexPath class])
                 {
-                    NSLog(@"found NSIndexPath");
-                    NSLog(@"%@",array);
-                    
                     [self handleTableViewWithIndexArray:array];
                 }
             }
@@ -143,17 +134,13 @@
         [children addObject:((UIWindow *)obj).rootViewController];
     }
     else if ([obj isKindOfClass:[UIView class]]){
-        for (NSObject *child in [(UIView *)obj subviews])
-        {
-                [children addObject:child];
-        }
+        [children addObjectsFromArray:[(UIView *)obj subviews]];
     }
     else if ([obj isKindOfClass:[UIViewController class]]){//UIViewController
         UIViewController *viewController = (UIViewController *)obj;
-        for (NSObject *child in [viewController childViewControllers])
-        {
-                [children addObject:child];
-        }
+        
+        [children addObjectsFromArray:[viewController childViewControllers]];
+
         if (viewController.presentedViewController) {
             [children addObject:viewController.presentedViewController];
         }
@@ -206,7 +193,7 @@
     }
 }
 
-- (void)getChildOfCell:(NSObject *)obj{
+- (void)getChildOfCell:(NSObject *)obj{//cell内的空间遍历
     
     NSArray *array = [NSArray array];
     array = [self getChildrenOfObject:obj];
@@ -224,6 +211,7 @@
 
 - (void)handleTableViewWithIndexArray:(NSArray *)indexArray{//indexPath
     NSString *str = @"";
+    BOOL run = 0;
     if ([Lotuseed sharedInstance].tableView) {
         for (int i = 0; i<indexArray.count; i++) {
             id myCell = [[Lotuseed sharedInstance].tableView cellForRowAtIndexPath:indexArray[i]];
@@ -244,17 +232,7 @@
     NSMutableArray *array = [NSMutableArray array];
     
     for (id obj in self.viewArray) {
-    
-        if ([obj isKindOfClass:[UILabel class]])
-        {
-            UILabel *label = obj;
-            NSString *name = label.text;
-            
-            [array addObject:@{
-                              @"labelName":name
-                              }];
-        }
-        else if ([obj isKindOfClass:[UIButton class]])
+        if ([obj isKindOfClass:[UIButton class]])
         {
             UIButton *button = (UIButton *)obj;
             NSString *title = button.titleLabel.text;
@@ -262,16 +240,7 @@
                                @"UIButton":title
                                }];
         }
-        else if ([obj isKindOfClass:[UIImageView class]])
-        {
-            UIImageView *imageView = obj;
-            UIImage *image = imageView.image;
-            CGRect imageRect = imageView.frame;
-            
-            [array addObject:@{
-                              
-                               }];
-        }
+        else if ([obj isKindOfClass:[UIImageView class]]){}
         
         else if ([obj isKindOfClass:[UITextField class]])
         {
@@ -279,13 +248,30 @@
             NSString *text = textField.text;
             
             [array addObject:@{
-                               @"text":text
+                               @"textField":text
                                }];
         }
     }
-    [[Lotuseed sharedInstance] track:str properties:@{
-                                                     str:array
-                                                     }];
+    
+    NSString *pathName = [NSString stringWithFormat:@"%@Path",str];
+    NSString *path;
+    if ([str isEqualToString:@"tableView"]) {
+        path = [Lotuseed getControlPath:[Lotuseed sharedInstance].tableView];
+        [Lotuseed sharedInstance].tableView = nil;
+        run = 1;
+        
+    }else if ([str isEqualToString:@"collectionView"]){
+        path = [Lotuseed getControlPath:[Lotuseed sharedInstance].collectionView];
+        [Lotuseed sharedInstance].collectionView = nil;
+        run = 1;
+    }
+    if (run) {
+        [[Lotuseed sharedInstance] track:str properties:@{
+                                                          str:array,
+                                                          pathName:path
+                                                          }];
+        [self.viewArray removeAllObjects];
+    }
     
 }
 
@@ -394,47 +380,28 @@
             continue;
         }
         if ([controlArray[i][@"x"] doubleValue] < [controlArray[index][@"x"] doubleValue]) {
-            NSLog(@"%f",[controlArray[i][@"x"] doubleValue]);
-            NSLog(@"%f",[controlArray[index][@"x"] doubleValue]);
-            
-            
             order ++;
         }
         else if ([controlArray[i][@"x"] doubleValue] > [controlArray[index][@"x"] doubleValue]){
-            NSLog(@"%f",[controlArray[i][@"x"] doubleValue]);
-            NSLog(@"%f",[controlArray[index][@"x"] doubleValue]);
-            
             continue;
         }
         else{
             if ([controlArray[i][@"y"] doubleValue] < [controlArray[index][@"y"] doubleValue]) {
                 order ++;
-                NSLog(@"%f",[controlArray[i][@"y"] doubleValue]);
-                NSLog(@"%f",[controlArray[index][@"y"] doubleValue]);
             }
             else if ([controlArray[i][@"y"] doubleValue] > [controlArray[index][@"y"] doubleValue]){
-                NSLog(@"%f",[controlArray[i][@"y"] doubleValue]);
-                NSLog(@"%f",[controlArray[index][@"y"] doubleValue]);
                 continue;
             }else{
                 if ([controlArray[i][@"width"] doubleValue] < [controlArray[index][@"width"] doubleValue]) {
                     order ++;
-                    NSLog(@"%f",[controlArray[i][@"width"] doubleValue]);
-                    NSLog(@"%f",[controlArray[index][@"width"] doubleValue]);
                 }
                 else if ([controlArray[i][@"width"] doubleValue] > [controlArray[index][@"width"] doubleValue]){
-                    NSLog(@"%f",[controlArray[i][@"width"] doubleValue]);
-                    NSLog(@"%f",[controlArray[index][@"width"] doubleValue]);
                     continue;
                 }
                 else{
                     if ([controlArray[i][@"height"] doubleValue] < [controlArray[index][@"height"] doubleValue]) {
                         order ++;
-                        NSLog(@"%f",[controlArray[i][@"height"] doubleValue]);
-                        NSLog(@"%f",[controlArray[index][@"height"] doubleValue]);
                     }else if ([controlArray[i][@"height"] doubleValue] >[controlArray[index][@"height"] doubleValue]){
-                        NSLog(@"%f",[controlArray[i][@"height"] doubleValue]);
-                        NSLog(@"%f",[controlArray[index][@"height"] doubleValue]);
                         continue;
                     }
                 }
@@ -453,12 +420,9 @@
         if (name == nil) {
             name = @"";
         }
-        NSString *rect = [NSString stringWithFormat:@"%d,%d,%d,%d",(int)button.frame.origin.x,(int)button.frame.origin.y,(int)button.frame.size.width,(int)button.frame.size.height];
         [[Lotuseed sharedInstance] track:@"UIButton" properties:@{
-                                                                  @"ButtonName":name,
-                                                                  @"ButtonInClass":@"UIButton",
-                                                                  @"path":[Lotuseed getControlPath:sender],
-                                                                  @"rect":rect
+                                                                  @"Button":name,
+                                                                  @"path":[Lotuseed getControlPath:sender]
                                                                   }];
     }
 }
@@ -471,12 +435,9 @@
         NSLog(@"textField为nil");
     }
     UITextField *myTextField = (UITextField *)sender;
-    NSString *rect = [NSString stringWithFormat:@"%d,%d,%d,%d",(int)myTextField.frame.origin.x,(int)myTextField.frame.origin.y,(int)myTextField.frame.size.width,(int)myTextField.frame.size.height];
     
     [[Lotuseed sharedInstance] track:@"UITextField" properties:@{
-                                                                @"TextFieldClass":NSStringFromClass([myTextField class]),
                                                                 @"placeholder":myTextField.placeholder,
-                                                                @"rect":rect,
                                                                 @"textFieldLabel":myTextField.text,
                                                                 @"path":[Lotuseed getControlPath:sender]
                                                                 }];
@@ -519,14 +480,13 @@
         [Lotuseed sharedInstance].tableView = (UITableView *)obj;
     }
     else if ([obj isKindOfClass:[UIButton class]]){
-        [(UIButton *)obj addTarget:[Lotuseed sharedInstance]  action:@selector(buttonInvoke:) forControlEvents:UIControlEventTouchUpInside];
+        [(UIButton *)obj addTarget:self action:@selector(buttonInvoke:) forControlEvents:UIControlEventTouchUpInside];
         
     }
     else if ([obj isKindOfClass:[UITextField class]]){
-        [(UITextField *)obj addTarget:[Lotuseed sharedInstance] action:@selector(textFieldInvoke:) forControlEvents:UIControlEventEditingDidEnd];
+        [(UITextField *)obj addTarget:self action:@selector(textFieldInvoke:) forControlEvents:UIControlEventEditingDidEnd];
     }
     else if ([obj isKindOfClass:[UIView class]]){
-    
         [children addObjectsFromArray:[(UIView *)obj subviews]];
     }
     return children;
@@ -544,7 +504,6 @@ static Lotuseed *sharedInstance = nil;
     }
     if (self = [self init]) {
         self.apiToken = apiToken;
-        NSString *label = [NSString stringWithFormat:@"com.lotuseed.%@.%p",apiToken,self];
 //        self.serialQueue = dispatch_queue_create([label UTF8String], DISPATCH_QUEUE_SERIAL);
     }
     return self;
@@ -552,7 +511,6 @@ static Lotuseed *sharedInstance = nil;
 
 + (Lotuseed *)sharedInstance{
     if (sharedInstance == nil) {
-        [self new];
         NSLog(@"warning sharedInstance called before sharedInstanceWithToken:");
     }
     return sharedInstance;

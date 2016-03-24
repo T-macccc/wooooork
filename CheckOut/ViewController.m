@@ -90,7 +90,9 @@
     view1.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:view1];
     
-
+    UITextView *textView = [[UITextView alloc]initWithFrame:CGRectMake(0, 400, 200, 300)];
+    textView.text = @"Now is the time for all good developers to come to serve their country.\n\nNow is the time for all good developers to come to serve their country.";
+    [self.view addSubview:textView];
     
     // Do any additional setup after loading the view, typically from a nib.
 }

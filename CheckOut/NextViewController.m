@@ -9,14 +9,18 @@
 #import "NextViewController.h"
 
 #import "ThirdViewController.h"
+#import "FourViewController.h"
+
+#import "TableViewCell.h"
 
 @implementation NextViewController
 
 - (void)turn{
-    ThirdViewController *thirdVC = [ThirdViewController new];
+//    ThirdViewController *thirdVC = [ThirdViewController new];
+    FourViewController *four = [FourViewController new];
     
 //    [self.navigationController pushViewController:thirdVC animated:YES];
-    [self presentViewController:thirdVC animated:YES completion:nil];
+    [self presentViewController:four animated:YES completion:nil];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -63,9 +67,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    TableViewCell *cell = (TableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithFrame:CGRectZero reuseIdentifier:CellIdentifier];
+        cell = [[TableViewCell alloc]initWithFrame:CGRectZero reuseIdentifier:CellIdentifier];
     }
     switch (indexPath.section) {
         case 0:
@@ -80,7 +84,7 @@
             [[cell textLabel] setText:@"Unknow"];
             break;
     }
-    return cell;
+    return (UITableViewCell *)cell;
 }
 
 

@@ -7,6 +7,8 @@
 //
 
 #import "FourViewController.h"
+#import "ViewController.h"
+#import "CollectionViewCell.h"
 
 @implementation FourViewController
 
@@ -30,7 +32,7 @@
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"GradientCell"];
+    [self.collectionView registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"GradientCell"];
     
     [self.view addSubview:self.collectionView];
     
@@ -38,6 +40,7 @@
     [button setTitle:@"four" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.view addSubview:button];
+    [button addTarget:self action:@selector(turn) forControlEvents:UIControlEventTouchUpInside];
     button.frame = CGRectMake(300, 300, 100, 50);
     
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithTitle:@"right" style:UIBarButtonItemStyleDone target:self action:@selector(test)];
@@ -50,6 +53,11 @@
     NSLog(@"test");
 }
 
+- (void)turn{
+    ViewController *view = [ViewController new];
+    [self presentViewController:view animated:YES completion:nil];
+}
+
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     return YES;
 }
@@ -58,7 +66,7 @@
     
     [_indexArray addObject:indexPath];
     
-    UICollectionViewCell *cell = (UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    CollectionViewCell *cell = (CollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
 }
 
@@ -80,14 +88,14 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIndentifier = @"GradientCell";
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIndentifier forIndexPath:indexPath];
+    CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIndentifier forIndexPath:indexPath];
     cell.backgroundColor = [UIColor grayColor];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 30, 30)];
     label.text = @"test";
     [cell addSubview:label];
     
-    return cell;
+    return (UICollectionViewCell *)cell;
 }
 
 
