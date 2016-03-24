@@ -71,11 +71,7 @@
     [self severalGetobj:controller];
     
     if (([Lotuseed sharedInstance].tableView || [Lotuseed
-                                                 sharedInstance].collectionView) != 1)
-    {
-        [self severalGetChild:controller];
-    }
-    else
+                                                 sharedInstance].collectionView) == 1)
     {
         [self addObserver:[Lotuseed sharedInstance] forKeyPath:@"lastVC" options:0 context:NULL];
     }
@@ -85,7 +81,7 @@
         [self gainTableViewAndIndexPath:[Lotuseed sharedInstance].firstVC];
 }
 
-//获取以property存在array里的indexPath;
+//获取在属性中的indexPath数组，结合collectionView和tableView,获得所点击cell内容
 - (NSDictionary *)properties_aps:(id)something{//获取对象的所有属性，及属性值
     NSMutableDictionary *props = [NSMutableDictionary dictionary];
     unsigned int outCount,i;
@@ -111,7 +107,8 @@
         if ([NSStringFromClass([dic[obj] class]) isEqualToString:@"__NSArrayM"] || [NSStringFromClass([dic[obj] class]) isEqualToString:@"__NSArrayI"])
         {
             NSArray *array = dic[obj];
-            if (array.count) {
+            if (array.count)
+            {
                 if ([array[0] class] == [NSIndexPath class])
                 {
                     [self handleTableViewWithIndexArray:array];
@@ -121,95 +118,11 @@
             {
                 NSLog(@"index array count is 0");
             }
-            
-        }
-    }
-    
-}
-
-- (NSArray *)getChildrenOfObject:(NSObject *)obj{//自定义控件的处理
-    NSMutableArray *children = [NSMutableArray array];
-    if ([obj isKindOfClass:[UIWindow class]])
-    {//UIWindow
-        [children addObject:((UIWindow *)obj).rootViewController];
-    }
-    else if ([obj isKindOfClass:[UIView class]]){
-        [children addObjectsFromArray:[(UIView *)obj subviews]];
-    }
-    else if ([obj isKindOfClass:[UIViewController class]]){//UIViewController
-        UIViewController *viewController = (UIViewController *)obj;
-        
-        [children addObjectsFromArray:[viewController childViewControllers]];
-
-        if (viewController.presentedViewController) {
-            [children addObject:viewController.presentedViewController];
-        }
-        
-            [children addObject:viewController.view];
-    }
-
-    return [children copy];
-}
-
-- (NSString *)getObjName:(NSObject *)obj
-{
-    NSString *name;
-    
-    if ([obj isKindOfClass:[UIButton class]]) {
-        UIButton *button = (UIButton *)obj;
-        name = button.titleLabel.text;
-    }
-    if ([obj isKindOfClass:[UILabel class]]) {
-        UILabel *label = (UILabel *)obj;
-        name = label.text;
-    }else{
-        name = NSStringFromClass([obj class]);
-    }
-    return name;
-}
-
-- (void)severalGetChild:(NSObject *)obj{
-    
-    NSArray *array = [NSArray array];
-    array = [self getChildrenOfObject:obj];
-    
-    if (array.count) {
-        for (int i = 0; i<array.count; i++) {
-            [self severalGetChildfirstTime:array[i]];
         }
     }
 }
 
-- (void)severalGetChildfirstTime:(NSObject *)obj{
-    
-    NSArray *array = [NSArray array];
-    array = [self getChildrenOfObject:obj];
-
-    if (array.count) {
-        for (int i = 0; i<array.count; i++)
-        {
-            [self severalGetChildfirstTime:array[i]];
-        }
-    }
-}
-
-- (void)getChildOfCell:(NSObject *)obj{//cell内的空间遍历
-    
-    NSArray *array = [NSArray array];
-    array = [self getChildrenOfObject:obj];
-    
-    if (array.count != 0) {
-        [_viewArray addObjectsFromArray:array];
-    }
-    
-    if (array.count) {
-        for (int i = 0; i<array.count; i++) {
-            [self getChildOfCell:array[i]];
-        }
-    }
-}
-
-- (void)handleTableViewWithIndexArray:(NSArray *)indexArray{//indexPath
+- (void)handleTableViewWithIndexArray:(NSArray *)indexArray{
     NSString *str = @"";
     BOOL run = 0;
     if ([Lotuseed sharedInstance].tableView) {
@@ -241,7 +154,12 @@
                                }];
         }
         else if ([obj isKindOfClass:[UIImageView class]]){}
-        
+        else if ([NSStringFromClass([obj class]) isEqualToString:@"UITableViewLabel"] ){
+            UILabel *label = (UILabel *)obj;
+            [array addObject:@{
+                               @"UITableViewLabel":label.text
+                               }];
+        }
         else if ([obj isKindOfClass:[UITextField class]])
         {
             UITextField *textField = obj;
@@ -275,8 +193,47 @@
     
 }
 
+- (void)getChildOfCell:(NSObject *)obj{//cell内的空间遍历
+    
+    NSArray *array = [NSArray array];
+    array = [self getChildrenOfObject:obj];
+    
+    if (array.count != 0) {
+        [_viewArray addObjectsFromArray:array];
+    }
+    
+    if (array.count) {
+        for (int i = 0; i<array.count; i++) {
+            [self getChildOfCell:array[i]];
+        }
+    }
+}
 
-//添加监控
+- (NSArray *)getChildrenOfObject:(NSObject *)obj{//自定义控件的处理
+    NSMutableArray *children = [NSMutableArray array];
+    if ([obj isKindOfClass:[UIWindow class]])
+    {//UIWindow
+        [children addObject:((UIWindow *)obj).rootViewController];
+    }
+    else if ([obj isKindOfClass:[UIView class]]){
+        [children addObjectsFromArray:[(UIView *)obj subviews]];
+    }
+    else if ([obj isKindOfClass:[UIViewController class]]){//UIViewController
+        UIViewController *viewController = (UIViewController *)obj;
+        
+        [children addObjectsFromArray:[viewController childViewControllers]];
+
+        if (viewController.presentedViewController) {
+            [children addObject:viewController.presentedViewController];
+        }
+        
+            [children addObject:viewController.view];
+    }
+
+    return [children copy];
+}
+
+//监控功能实现
 
 + (NSString *)getControlPath:(id)sender{
     
@@ -492,7 +449,7 @@
     return children;
 }
 
-//初始化
+//单例
 static Lotuseed *sharedInstance = nil;
 
 - (instancetype)initWithToken:(NSString *)apiToken launchOptions:(NSDictionary *)launchOptions{

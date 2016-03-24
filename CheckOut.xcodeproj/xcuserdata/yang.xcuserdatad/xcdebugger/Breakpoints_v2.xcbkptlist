@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CheckOut/Lotuseed.m"
-            timestampString = "480502960.06191"
+            timestampString = "480510237.621598"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "590"
-            endingLineNumber = "590"
+            startingLineNumber = "547"
+            endingLineNumber = "547"
             landmarkName = "@implementation Lotuseed"
             landmarkType = "3">
          </BreakpointContent>
