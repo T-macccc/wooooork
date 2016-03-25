@@ -94,6 +94,17 @@
     textView.text = @"Now is the time for all good developers to come to serve their country.\n\nNow is the time for all good developers to come to serve their country.";
     [self.view addSubview:textView];
     
+    UISwitch *switchButton = [[UISwitch alloc]initWithFrame:CGRectMake(250, 400, 20, 10)];
+    [switchButton setOn:YES];
+    [self.view addSubview:switchButton];
+    
+    UIStepper *stepper = [[UIStepper alloc]initWithFrame:CGRectMake(280, 400, 20, 10)];
+    stepper.stepValue = 1;
+    stepper.minimumValue = 0;
+    stepper.maximumValue = 5;
+    stepper.value = 2;
+    [self.view addSubview:stepper];
+    
     // Do any additional setup after loading the view, typically from a nib.
 }
 

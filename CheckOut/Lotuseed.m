@@ -10,10 +10,33 @@
 #import <objc/runtime.h>
 
 @implementation Lotuseed
+{
+    id _l;
+    NSMutableArray *_iArray;
+    NSMutableArray *_collectionArray;
+    NSMutableArray *_cArray;
+}
 
 - (instancetype)init{
     if (self = [super init]) {
         _viewArray = [NSMutableArray array];
+        _iArray = [NSMutableArray array];//tableView的indexPath
+        _cArray = [NSMutableArray array];//点击过的cell数组
+        _collectionArray = [NSMutableArray array];//collectionView的indexPath
+        
+        for (int i = 0; i<=10; i++) {
+            for (int j = 0; j <= 50; j++) {
+                NSIndexPath *p = [NSIndexPath indexPathForRow:j inSection:i];
+                [_iArray addObject:p];
+            }
+        }
+        
+        for (int i = 0; i<=1; i++) {//i大于1就发生崩溃
+            for (int j = 0; j <= 50; j++) {
+                NSIndexPath *p = [NSIndexPath indexPathForItem:j inSection:i];
+                [_collectionArray addObject:p];
+            }
+        }
     }
     return self;
 }
@@ -22,7 +45,7 @@
     BOOL backgroundSupported = [Lotuseed isMulitaskingSupported];
     if (backgroundSupported) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addSelector) name:UIApplicationDidBecomeActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewControllerChanged:) name:UITouchPhaseBegan object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewControllerChanged) name:UITouchPhaseBegan object:nil];
     }
 }
 
@@ -37,7 +60,7 @@
     return backgroundSupported;
 }
 
-+ (void)viewControllerChanged:(UIButton *)something{
++ (void)viewControllerChanged{
     UIViewController *controller = [UIApplication sharedApplication].keyWindow.rootViewController;
     while (controller.presentedViewController) {
         controller = controller.presentedViewController;
@@ -67,7 +90,7 @@
 }
 
 - (void)invokeLotuseed:(id)controller{
-
+    
     [self severalGetobj:controller];
     
     if (([Lotuseed sharedInstance].tableView || [Lotuseed
@@ -75,10 +98,62 @@
     {
         [self addObserver:[Lotuseed sharedInstance] forKeyPath:@"lastVC" options:0 context:NULL];
     }
+    [self addObserver:[Lotuseed sharedInstance] forKeyPath:@"firstVC" options:0 context:NULL];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
-        [self gainTableViewAndIndexPath:[Lotuseed sharedInstance].firstVC];
+    
+    [self gainTableViewAndIndexPath:[Lotuseed sharedInstance].firstVC];
+    
+    if (_l != [Lotuseed sharedInstance].firstVC) {
+        _l = [Lotuseed sharedInstance].firstVC;
+        
+        if ([Lotuseed sharedInstance].tableView) {
+            [self monitorCell:[Lotuseed sharedInstance].tableView];
+        }
+        if([Lotuseed sharedInstance].collectionView){
+            [self monitorCell:[Lotuseed sharedInstance].collectionView];
+        }
+        
+    }
+}
+
+- (void)monitorCell:(id)obj{//collectionView和tableView内添加监控
+    [_cArray removeAllObjects];
+    
+    id c;
+        if ([obj isKindOfClass:[UITableView class]])
+        {
+            for (int i = 0; i<_iArray.count; i++)
+            {
+            c = [(UITableView *)obj cellForRowAtIndexPath:_iArray[i]];
+                
+                if (c != nil)
+                {
+                    [_cArray addObject:c];
+                }
+            }
+        }
+    
+    
+        if ([obj isKindOfClass:[UICollectionView class]])
+        {
+            for (int i = 0;i<_collectionArray.count; i++)
+            {
+                c = [(UICollectionView *)obj cellForItemAtIndexPath:_collectionArray[i]];
+                
+                if (c != nil)
+                {
+                    [_cArray addObject:c];
+                }
+            }
+        }
+    
+    if (_cArray.count != 0) {
+        for (int i = 0; i<_cArray.count; i++) {
+            [self severalGetobj:_cArray[i]];
+        }
+    }
 }
 
 //获取在属性中的indexPath数组，结合collectionView和tableView,获得所点击cell内容
@@ -114,24 +189,22 @@
                     [self handleTableViewWithIndexArray:array];
                 }
             }
-            else
-            {
-                NSLog(@"index array count is 0");
-            }
         }
     }
 }
 
 - (void)handleTableViewWithIndexArray:(NSArray *)indexArray{
     NSString *str = @"";
-    BOOL run = 0;
     if ([Lotuseed sharedInstance].tableView) {
         for (int i = 0; i<indexArray.count; i++) {
             id myCell = [[Lotuseed sharedInstance].tableView cellForRowAtIndexPath:indexArray[i]];
-            
+
             str = @"tableView";
             [self getChildOfCell:myCell];
+            
+            [self collectTableViewOrCollectionViewTouchResult:str withIndex:indexArray[i]];
         }
+        [Lotuseed sharedInstance].tableView = nil;
     }
     else if ([Lotuseed sharedInstance].collectionView){
         for (int i = 0; i<indexArray.count; i++) {
@@ -139,11 +212,16 @@
             
             str = @"collectionView";
             [self getChildOfCell:myCell];
+            
+            [self collectTableViewOrCollectionViewTouchResult:str withIndex:indexArray[i]];
         }
+        [Lotuseed sharedInstance].collectionView = nil;
     }
-    
+}
+
+- (void)collectTableViewOrCollectionViewTouchResult:(NSString *)str withIndex:(NSIndexPath *)indexPath{
+    BOOL run = 0;
     NSMutableArray *array = [NSMutableArray array];
-    
     for (id obj in self.viewArray) {
         if ([obj isKindOfClass:[UIButton class]])
         {
@@ -173,24 +251,25 @@
     
     NSString *pathName = [NSString stringWithFormat:@"%@Path",str];
     NSString *path;
+    NSString *index;
     if ([str isEqualToString:@"tableView"]) {
         path = [Lotuseed getControlPath:[Lotuseed sharedInstance].tableView];
-        [Lotuseed sharedInstance].tableView = nil;
+        index = [NSString stringWithFormat:@"row:%ld,section:%ld",(long)indexPath.row,(long)indexPath.section];
         run = 1;
         
     }else if ([str isEqualToString:@"collectionView"]){
         path = [Lotuseed getControlPath:[Lotuseed sharedInstance].collectionView];
-        [Lotuseed sharedInstance].collectionView = nil;
+        index = [NSString stringWithFormat:@"item:%ld,section:%ld",(long)indexPath.item,(long)indexPath.section];
         run = 1;
     }
     if (run) {
-        [[Lotuseed sharedInstance] track:str properties:@{
+        [self track:str properties:@{
                                                           str:array,
-                                                          pathName:path
+                                                          pathName:path,
+                                                          @"indexPath":index
                                                           }];
         [self.viewArray removeAllObjects];
     }
-    
 }
 
 - (void)getChildOfCell:(NSObject *)obj{//cell内的空间遍历
@@ -368,6 +447,39 @@
     return order;
 }
 
+- (void)stepperButtonInvoke:(UIStepper *)sender{
+    if ([sender isKindOfClass:[UIStepper class]]) {
+        UIStepper *step = (UIStepper *)sender;
+        NSNumber *value = [NSNumber numberWithFloat:(float)step.value];
+        NSNumber *stepValue = [NSNumber numberWithFloat:(float)step.stepValue];
+        NSNumber *minValue = [NSNumber numberWithFloat:(float)step.minimumValue];
+        NSNumber *maxValue = [NSNumber numberWithFloat:(float)step.maximumValue];
+        [self track:@"UIStepper" properties:@{
+                                                               @"class":@"UIStepper",
+                                                               @"minValue":minValue,
+                                                               @"maxValue":maxValue,
+                                                               @"stepValue":stepValue,
+                                                               @"currentValue":value,
+                                                               @"path":[Lotuseed getControlPath:sender]
+                                                               }];
+    }
+}
+
+- (void)switchButtonInvoke:(UISwitch *)sender{
+    if ([sender isKindOfClass:[UISwitch class]]) {
+        UISwitch *switchButton = (UISwitch *)sender;
+        
+        BOOL on = switchButton.isOn;
+        NSNumber *onNumber = [NSNumber numberWithBool:on];
+        
+        [self track:@"SwitchButton" properties:@{
+                                                                     @"class":@"SwitchButton",
+                                                                     @"path":[Lotuseed getControlPath:sender],
+                                                                     @"isOn":onNumber
+                                                                     }];
+    }
+}
+
 - (void)buttonInvoke:(UIButton *)sender{
     if ([sender isKindOfClass:[UIButton class]]) {
         UIButton *button = (UIButton *)sender;
@@ -377,7 +489,7 @@
         if (name == nil) {
             name = @"";
         }
-        [[Lotuseed sharedInstance] track:@"UIButton" properties:@{
+        [self track:@"UIButton" properties:@{
                                                                   @"Button":name,
                                                                   @"path":[Lotuseed getControlPath:sender]
                                                                   }];
@@ -393,7 +505,7 @@
     }
     UITextField *myTextField = (UITextField *)sender;
     
-    [[Lotuseed sharedInstance] track:@"UITextField" properties:@{
+    [self track:@"UITextField" properties:@{
                                                                 @"placeholder":myTextField.placeholder,
                                                                 @"textFieldLabel":myTextField.text,
                                                                 @"path":[Lotuseed getControlPath:sender]
@@ -442,6 +554,12 @@
     }
     else if ([obj isKindOfClass:[UITextField class]]){
         [(UITextField *)obj addTarget:self action:@selector(textFieldInvoke:) forControlEvents:UIControlEventEditingDidEnd];
+    }
+    else if ([obj isKindOfClass:[UISwitch class]]){
+        [(UISwitch *)obj addTarget:self action:@selector(switchButtonInvoke:) forControlEvents:UIControlEventValueChanged];
+    }
+    else if ([obj isKindOfClass:[UIStepper class]]){
+        [(UIStepper *)obj addTarget:self action:@selector(stepperButtonInvoke:) forControlEvents:UIControlEventValueChanged];
     }
     else if ([obj isKindOfClass:[UIView class]]){
         [children addObjectsFromArray:[(UIView *)obj subviews]];

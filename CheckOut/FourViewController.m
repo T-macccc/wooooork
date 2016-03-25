@@ -75,7 +75,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(48, 50);//定义每个collectionView的大小
+    return CGSizeMake(96, 100);//定义每个collectionView的大小
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -91,7 +91,7 @@
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIndentifier forIndexPath:indexPath];
     cell.backgroundColor = [UIColor grayColor];
     
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 30, 30)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(50, 50, 30, 30)];
     label.text = @"test";
     [cell addSubview:label];
     
