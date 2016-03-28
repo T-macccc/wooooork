@@ -12,6 +12,7 @@
 #import "NextViewController.h"
 
 #import "Lotuseed.h"
+#import "LSDMonitoring.h"
 
 @interface AppDelegate ()
 
@@ -21,8 +22,13 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Lotuseed setCrashReportEnabled:YES];
+    [Lotuseed startWithAppKey:@"x0ZtKJ7H5K8OdgdLbmm3"];
+    [Lotuseed checkUpdate];
+    [Lotuseed updateOnlineConfig];
     
-    [Lotuseed sharedInstanceWithToken:@"ttttest"];
+    [LSDMonitoring sharedInstanceWithToken:nil launchOptions:nil];
+    
 //
 //    UITabBarController *tb = [UITabBarController new];
 //    

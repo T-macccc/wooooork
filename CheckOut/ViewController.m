@@ -98,7 +98,7 @@
     [switchButton setOn:YES];
     [self.view addSubview:switchButton];
     
-    UIStepper *stepper = [[UIStepper alloc]initWithFrame:CGRectMake(280, 400, 20, 10)];
+    UIStepper *stepper = [[UIStepper alloc]initWithFrame:CGRectMake(280, 350, 20, 10)];
     stepper.stepValue = 1;
     stepper.minimumValue = 0;
     stepper.maximumValue = 5;

@@ -10,6 +10,13 @@
 		2F547EB71CA3CEE70032EE44 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F547EB61CA3CEE70032EE44 /* TableViewCell.m */; };
 		2F547EBA1CA3E1CA0032EE44 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F547EB91CA3E1CA0032EE44 /* CollectionViewCell.m */; };
 		2F5512DA1C9BAAB1002ED1D8 /* FiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5512D91C9BAAB1002ED1D8 /* FiveViewController.m */; };
+		2F7D75181CA8FB6F003132D6 /* libLotuseed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7D75151CA8FB4C003132D6 /* libLotuseed.a */; };
+		2F7D751A1CA8FB79003132D6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7D75191CA8FB79003132D6 /* Foundation.framework */; };
+		2F7D751C1CA8FB83003132D6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7D751B1CA8FB83003132D6 /* CoreTelephony.framework */; };
+		2F7D751E1CA8FB8A003132D6 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7D751D1CA8FB8A003132D6 /* AdSupport.framework */; };
+		2F7D75201CA8FB92003132D6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7D751F1CA8FB92003132D6 /* CoreLocation.framework */; };
+		2F7D75221CA8FB9A003132D6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7D75211CA8FB9A003132D6 /* SystemConfiguration.framework */; };
+		2F7D75241CA8FBA2003132D6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7D75231CA8FBA2003132D6 /* Security.framework */; };
 		2F9B37651C97E05F001AD7F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B37641C97E05F001AD7F6 /* main.m */; };
 		2F9B37681C97E05F001AD7F6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B37671C97E05F001AD7F6 /* AppDelegate.m */; };
 		2F9B376B1C97E05F001AD7F6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B376A1C97E05F001AD7F6 /* ViewController.m */; };
@@ -21,11 +28,24 @@
 		2F9B37981C97E239001AD7F6 /* NextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B37971C97E239001AD7F6 /* NextViewController.m */; };
 		2F9B379B1C97E45F001AD7F6 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B379A1C97E45F001AD7F6 /* ThirdViewController.m */; };
 		2F9B379E1C97E470001AD7F6 /* FourViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B379D1C97E470001AD7F6 /* FourViewController.m */; };
-		2F9B37A51C97EC1E001AD7F6 /* Lotuseed.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B37A01C97EC1E001AD7F6 /* Lotuseed.m */; };
 		2F9B37AA1C97ECD6001AD7F6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9B37A91C97ECD6001AD7F6 /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2F7D75141CA8FB4C003132D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2F7D75101CA8FB4C003132D6 /* Lotuseed.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3078D79A15859F2200C5E1C1;
+			remoteInfo = Lotuseed;
+		};
+		2F7D75161CA8FB6B003132D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2F7D75101CA8FB4C003132D6 /* Lotuseed.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3078D79915859F2200C5E1C1;
+			remoteInfo = Lotuseed;
+		};
 		2F9B377A1C97E05F001AD7F6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2F9B37581C97E05F001AD7F6 /* Project object */;
@@ -49,6 +69,13 @@
 		2F547EB91CA3E1CA0032EE44 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		2F5512D81C9BAAB1002ED1D8 /* FiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FiveViewController.h; sourceTree = "<group>"; };
 		2F5512D91C9BAAB1002ED1D8 /* FiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FiveViewController.m; sourceTree = "<group>"; };
+		2F7D75101CA8FB4C003132D6 /* Lotuseed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lotuseed.xcodeproj; path = "../../ios_sdk-git/lib/Lotuseed/Lotuseed.xcodeproj"; sourceTree = "<group>"; };
+		2F7D75191CA8FB79003132D6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2F7D751B1CA8FB83003132D6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		2F7D751D1CA8FB8A003132D6 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		2F7D751F1CA8FB92003132D6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		2F7D75211CA8FB9A003132D6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		2F7D75231CA8FBA2003132D6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2F9B37601C97E05F001AD7F6 /* CheckOut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckOut.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F9B37641C97E05F001AD7F6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2F9B37661C97E05F001AD7F6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -71,8 +98,6 @@
 		2F9B379A1C97E45F001AD7F6 /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
 		2F9B379C1C97E470001AD7F6 /* FourViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FourViewController.h; sourceTree = "<group>"; };
 		2F9B379D1C97E470001AD7F6 /* FourViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FourViewController.m; sourceTree = "<group>"; };
-		2F9B379F1C97EC1E001AD7F6 /* Lotuseed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lotuseed.h; sourceTree = "<group>"; };
-		2F9B37A01C97EC1E001AD7F6 /* Lotuseed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lotuseed.m; sourceTree = "<group>"; };
 		2F9B37A91C97ECD6001AD7F6 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -81,6 +106,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F7D75241CA8FBA2003132D6 /* Security.framework in Frameworks */,
+				2F7D75221CA8FB9A003132D6 /* SystemConfiguration.framework in Frameworks */,
+				2F7D75201CA8FB92003132D6 /* CoreLocation.framework in Frameworks */,
+				2F7D751E1CA8FB8A003132D6 /* AdSupport.framework in Frameworks */,
+				2F7D751C1CA8FB83003132D6 /* CoreTelephony.framework in Frameworks */,
+				2F7D751A1CA8FB79003132D6 /* Foundation.framework in Frameworks */,
+				2F7D75181CA8FB6F003132D6 /* libLotuseed.a in Frameworks */,
 				2F9B37AA1C97ECD6001AD7F6 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -102,9 +134,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F7D75111CA8FB4C003132D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2F7D75151CA8FB4C003132D6 /* libLotuseed.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		2F9B37571C97E05F001AD7F6 = {
 			isa = PBXGroup;
 			children = (
+				2F7D75231CA8FBA2003132D6 /* Security.framework */,
+				2F7D75211CA8FB9A003132D6 /* SystemConfiguration.framework */,
+				2F7D751F1CA8FB92003132D6 /* CoreLocation.framework */,
+				2F7D751D1CA8FB8A003132D6 /* AdSupport.framework */,
+				2F7D751B1CA8FB83003132D6 /* CoreTelephony.framework */,
+				2F7D75191CA8FB79003132D6 /* Foundation.framework */,
+				2F7D75101CA8FB4C003132D6 /* Lotuseed.xcodeproj */,
 				2F9B37A91C97ECD6001AD7F6 /* libz.tbd */,
 				2F9B37621C97E05F001AD7F6 /* CheckOut */,
 				2F9B377C1C97E05F001AD7F6 /* CheckOutTests */,
@@ -126,8 +173,6 @@
 		2F9B37621C97E05F001AD7F6 /* CheckOut */ = {
 			isa = PBXGroup;
 			children = (
-				2F9B379F1C97EC1E001AD7F6 /* Lotuseed.h */,
-				2F9B37A01C97EC1E001AD7F6 /* Lotuseed.m */,
 				2F9B37661C97E05F001AD7F6 /* AppDelegate.h */,
 				2F9B37671C97E05F001AD7F6 /* AppDelegate.m */,
 				2F9B37691C97E05F001AD7F6 /* ViewController.h */,
@@ -193,6 +238,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2F7D75171CA8FB6B003132D6 /* PBXTargetDependency */,
 			);
 			name = CheckOut;
 			productName = CheckOut;
@@ -268,6 +314,12 @@
 			mainGroup = 2F9B37571C97E05F001AD7F6;
 			productRefGroup = 2F9B37611C97E05F001AD7F6 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 2F7D75111CA8FB4C003132D6 /* Products */;
+					ProjectRef = 2F7D75101CA8FB4C003132D6 /* Lotuseed.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				2F9B375F1C97E05F001AD7F6 /* CheckOut */,
@@ -276,6 +328,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		2F7D75151CA8FB4C003132D6 /* libLotuseed.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLotuseed.a;
+			remoteRef = 2F7D75141CA8FB4C003132D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2F9B375E1C97E05F001AD7F6 /* Resources */ = {
@@ -312,7 +374,6 @@
 				2F5512DA1C9BAAB1002ED1D8 /* FiveViewController.m in Sources */,
 				2F9B379E1C97E470001AD7F6 /* FourViewController.m in Sources */,
 				2F9B376B1C97E05F001AD7F6 /* ViewController.m in Sources */,
-				2F9B37A51C97EC1E001AD7F6 /* Lotuseed.m in Sources */,
 				2F547EB71CA3CEE70032EE44 /* TableViewCell.m in Sources */,
 				2F9B379B1C97E45F001AD7F6 /* ThirdViewController.m in Sources */,
 				2F547EBA1CA3E1CA0032EE44 /* CollectionViewCell.m in Sources */,
@@ -341,6 +402,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		2F7D75171CA8FB6B003132D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Lotuseed;
+			targetProxy = 2F7D75161CA8FB6B003132D6 /* PBXContainerItemProxy */;
+		};
 		2F9B377B1C97E05F001AD7F6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2F9B375F1C97E05F001AD7F6 /* CheckOut */;
@@ -465,6 +531,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Lotuseed.CheckOut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = " /Users/yang/ios_sdk-git/**";
 			};
 			name = Debug;
 		};
@@ -478,6 +545,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Lotuseed.CheckOut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = " /Users/yang/ios_sdk-git/**";
 			};
 			name = Release;
 		};
