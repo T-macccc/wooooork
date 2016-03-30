@@ -12,8 +12,11 @@
 #import "FourViewController.h"
 
 #import "TableViewCell.h"
+#import <objc/runtime.h>
 
 @implementation NextViewController
+
+
 
 - (void)turn{
 //    ThirdViewController *thirdVC = [ThirdViewController new];
@@ -58,7 +61,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [_indexPathArray addObject:indexPath];
+//    NSLog(@"indexPathArray:%@",_indexPathArray);
+//    [_indexPathArray addObject:indexPath];
+    NSLog(@"nextViewController:%ld,%ld",(long)indexPath.row,(long)indexPath.section);
+    NSLog(@"nextTableView");
     
     //    TraverseViewC *tra = [[TraverseViewC alloc]init];
     //    [tra handleTableView:self];
@@ -87,6 +93,10 @@
     return (UITableViewCell *)cell;
 }
 
+//- (void)LSD_tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    NSLog(@"tableView 替换");
+//    [self LSD_tableView:tableView didSelectRowAtIndexPath:indexPath];
+//}
 
 - (void)viewDidLoad{
     [super viewDidLoad];
@@ -116,6 +126,26 @@
     [button setTitle:@"turn" forState:UIControlStateNormal];
     [self.view addSubview:button];
     [button addTarget:self action:@selector(turn) forControlEvents:UIControlEventTouchUpInside];
+    
+//        NSString *className = @"NextViewController";
+//        static dispatch_once_t onceToken;
+//        dispatch_once(&onceToken, ^{
+//            Class class = NSClassFromString(@"NextViewController");
+//            
+//            SEL originalSelector = @selector(tableView:didSelectRowAtIndexPath:);
+//            SEL swizzleSelector = @selector(LSD_tableView:didSelectRowAtIndexPath:);
+//            
+//            Method originalMethod = class_getInstanceMethod(class, originalSelector);
+//            Method swizzleMethod = class_getInstanceMethod(class, swizzleSelector);
+//            
+//            BOOL didAddMethod = class_addMethod(class, originalSelector, method_getImplementation(swizzleMethod), method_getTypeEncoding(swizzleMethod));
+//            if (didAddMethod) {
+//                class_replaceMethod(class, swizzleSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+//            }else{
+//                method_exchangeImplementations(originalMethod, swizzleMethod);
+//            }
+//        });
+
      }
 
 @end

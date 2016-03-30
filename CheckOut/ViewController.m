@@ -20,6 +20,7 @@
     UITextField *textField0;
     UITextField *textField1;
 }
+
 - (IBAction)ClickedSSS:(id)sender {
     NSLog(@"swss");
     [self turn];
