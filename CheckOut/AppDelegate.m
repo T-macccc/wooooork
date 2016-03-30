@@ -26,27 +26,29 @@
     [Lotuseed startWithAppKey:@"x0ZtKJ7H5K8OdgdLbmm3"];
     [Lotuseed checkUpdate];
     [Lotuseed updateOnlineConfig];
-    
-    [LSDMonitoring sharedInstanceWithToken:nil launchOptions:nil];
+  
     
 //
-//    UITabBarController *tb = [UITabBarController new];
-//    
-//    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-//    
-//    ViewController *viewController = [[ViewController alloc]init];
+    UITabBarController *tb = [UITabBarController new];
+    
+    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    
+    ViewController *viewController = [[ViewController alloc]init];
 //    UINavigationController *nav0 = [[UINavigationController alloc]initWithRootViewController:viewController];
 //    nav0.title = @"first";
-//    
-//    NextViewController *nextViewController = [[NextViewController alloc]init];
+    viewController.title = @"1";
+    
+    NextViewController *nextViewController = [[NextViewController alloc]init];
 //    UINavigationController *nav1 = [[UINavigationController alloc]initWithRootViewController:nextViewController];
 //    nav1.title = @"second";
-//    
-//    [tb addChildViewController:nav0];
-//    [tb addChildViewController:nav1];
-//    
-//    self.window.rootViewController = tb;
-//    [self.window makeKeyAndVisible];
+    nextViewController.title = @"2";
+    
+    [tb addChildViewController:viewController];
+    [tb addChildViewController:nextViewController];
+    
+    self.window.rootViewController = tb;
+    [self.window makeKeyAndVisible];
+    
     
     // Override point for customization after application launch.
     return YES;

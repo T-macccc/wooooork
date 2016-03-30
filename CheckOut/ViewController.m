@@ -34,8 +34,8 @@
     FourViewController *four =  [[FourViewController alloc]init];
     NextViewController *next = [NextViewController new];
     
-//    [self.navigationController pushViewController:four animated:YES];
-    [self presentViewController:next animated:YES completion:nil];
+    [self.navigationController pushViewController:next animated:YES];
+//    [self presentViewController:next animated:YES completion:nil];
 }
 
 - (void)action0{
