@@ -48,7 +48,7 @@
     
     self.window.rootViewController = tb;
     [self.window makeKeyAndVisible];
-    
+//
     
     // Override point for customization after application launch.
     return YES;

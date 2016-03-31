@@ -1,17 +1,21 @@
 //
-//  FourViewController.m
+//  SevenViewController.m
 //  CheckOut
 //
-//  Created by 杨 on 16/3/15.
+//  Created by 杨 on 16/3/31.
 //  Copyright © 2016年 杨. All rights reserved.
 //
 
-#import "FourViewController.h"
+#import "SevenViewController.h"
+
 #import "ViewController.h"
 #import "CollectionViewCell.h"
-#import "SixViewController.h"
 
-@implementation FourViewController
+@interface SevenViewController ()
+
+@end
+
+@implementation SevenViewController
 
 - (instancetype)init{
     if (self = [super init]) {
@@ -41,12 +45,12 @@
     [button setTitle:@"four" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.view addSubview:button];
-    [button addTarget:self action:@selector(turn) forControlEvents:UIControlEventTouchUpInside];
+//    [button addTarget:self action:@selector(turn) forControlEvents:UIControlEventTouchUpInside];
     button.frame = CGRectMake(300, 300, 100, 50);
     
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithTitle:@"right" style:UIBarButtonItemStyleDone target:self action:@selector(test)];
     self.navigationItem.rightBarButtonItem = rightButton;
-    UINavigationBar *bar = self.navigationController.navigationBar;
+//    UINavigationBar *bar = self.navigationController.navigationBar;
     
 }
 
@@ -54,11 +58,11 @@
     NSLog(@"test");
 }
 
-- (void)turn{
-    ViewController *view = [ViewController new];
-    SixViewController *six = [SixViewController new];
-    [self presentViewController:six animated:YES completion:nil];
-}
+//- (void)turn{
+//    ViewController *view = [ViewController new];
+//    SixViewController *six = [SixViewController new];
+//    [self presentViewController:six animated:YES completion:nil];
+//}
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     return YES;
@@ -66,8 +70,8 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-//    [_indexArray addObject:indexPath];
-    NSLog(@"Four_Collection");
+    //    [_indexArray addObject:indexPath];
+    NSLog(@"Seven_Collection");
     CollectionViewCell *cell = (CollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
 }
@@ -77,7 +81,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(96, 100);//定义每个collectionView的大小
+    return CGSizeMake(150, 150);//定义每个collectionView的大小
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -94,7 +98,7 @@
     cell.backgroundColor = [UIColor grayColor];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(50, 50, 30, 30)];
-    label.text = @"test";
+    label.text = @"sec";
     [cell addSubview:label];
     
     return (UICollectionViewCell *)cell;

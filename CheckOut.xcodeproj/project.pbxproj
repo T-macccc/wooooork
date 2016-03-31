@@ -10,6 +10,8 @@
 		2F547EB71CA3CEE70032EE44 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F547EB61CA3CEE70032EE44 /* TableViewCell.m */; };
 		2F547EBA1CA3E1CA0032EE44 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F547EB91CA3E1CA0032EE44 /* CollectionViewCell.m */; };
 		2F5512DA1C9BAAB1002ED1D8 /* FiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5512D91C9BAAB1002ED1D8 /* FiveViewController.m */; };
+		2F66B7F61CACC5FF000F1488 /* SixViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F66B7F51CACC5FF000F1488 /* SixViewController.m */; };
+		2F66B7F91CACF70B000F1488 /* SevenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F66B7F81CACF70B000F1488 /* SevenViewController.m */; };
 		2F7D75181CA8FB6F003132D6 /* libLotuseed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7D75151CA8FB4C003132D6 /* libLotuseed.a */; };
 		2F7D751A1CA8FB79003132D6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7D75191CA8FB79003132D6 /* Foundation.framework */; };
 		2F7D751C1CA8FB83003132D6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7D751B1CA8FB83003132D6 /* CoreTelephony.framework */; };
@@ -69,6 +71,10 @@
 		2F547EB91CA3E1CA0032EE44 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		2F5512D81C9BAAB1002ED1D8 /* FiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FiveViewController.h; sourceTree = "<group>"; };
 		2F5512D91C9BAAB1002ED1D8 /* FiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FiveViewController.m; sourceTree = "<group>"; };
+		2F66B7F41CACC5FF000F1488 /* SixViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SixViewController.h; sourceTree = "<group>"; };
+		2F66B7F51CACC5FF000F1488 /* SixViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SixViewController.m; sourceTree = "<group>"; };
+		2F66B7F71CACF70B000F1488 /* SevenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SevenViewController.h; sourceTree = "<group>"; };
+		2F66B7F81CACF70B000F1488 /* SevenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SevenViewController.m; sourceTree = "<group>"; };
 		2F7D75101CA8FB4C003132D6 /* Lotuseed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lotuseed.xcodeproj; path = "../../ios_sdk-git/lib/Lotuseed/Lotuseed.xcodeproj"; sourceTree = "<group>"; };
 		2F7D75191CA8FB79003132D6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2F7D751B1CA8FB83003132D6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -185,6 +191,10 @@
 				2F547EB61CA3CEE70032EE44 /* TableViewCell.m */,
 				2F9B379C1C97E470001AD7F6 /* FourViewController.h */,
 				2F9B379D1C97E470001AD7F6 /* FourViewController.m */,
+				2F66B7F41CACC5FF000F1488 /* SixViewController.h */,
+				2F66B7F51CACC5FF000F1488 /* SixViewController.m */,
+				2F66B7F71CACF70B000F1488 /* SevenViewController.h */,
+				2F66B7F81CACF70B000F1488 /* SevenViewController.m */,
 				2F547EB81CA3E1CA0032EE44 /* CollectionViewCell.h */,
 				2F547EB91CA3E1CA0032EE44 /* CollectionViewCell.m */,
 				2F5512D81C9BAAB1002ED1D8 /* FiveViewController.h */,
@@ -374,12 +384,14 @@
 				2F5512DA1C9BAAB1002ED1D8 /* FiveViewController.m in Sources */,
 				2F9B379E1C97E470001AD7F6 /* FourViewController.m in Sources */,
 				2F9B376B1C97E05F001AD7F6 /* ViewController.m in Sources */,
+				2F66B7F91CACF70B000F1488 /* SevenViewController.m in Sources */,
 				2F547EB71CA3CEE70032EE44 /* TableViewCell.m in Sources */,
 				2F9B379B1C97E45F001AD7F6 /* ThirdViewController.m in Sources */,
 				2F547EBA1CA3E1CA0032EE44 /* CollectionViewCell.m in Sources */,
 				2F9B37981C97E239001AD7F6 /* NextViewController.m in Sources */,
 				2F9B37681C97E05F001AD7F6 /* AppDelegate.m in Sources */,
 				2F9B37651C97E05F001AD7F6 /* main.m in Sources */,
+				2F66B7F61CACC5FF000F1488 /* SixViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,29 +1,32 @@
 //
-//  NextViewController.m
+//  SixViewController.m
 //  CheckOut
 //
-//  Created by 杨 on 16/3/15.
+//  Created by 杨 on 16/3/31.
 //  Copyright © 2016年 杨. All rights reserved.
 //
 
-#import "NextViewController.h"
+#import "SixViewController.h"
 
 #import "ThirdViewController.h"
 #import "FourViewController.h"
 
 #import "TableViewCell.h"
+#import "SevenViewController.h"
 #import <objc/runtime.h>
 
-@implementation NextViewController
+@interface SixViewController ()
 
+@end
 
+@implementation SixViewController
 
 - (void)turn{
-//    ThirdViewController *thirdVC = [ThirdViewController new];
+    //    ThirdViewController *thirdVC = [ThirdViewController new];
     FourViewController *four = [FourViewController new];
-    
-//    [self.navigationController pushViewController:thirdVC animated:YES];
-    [self presentViewController:four animated:YES completion:nil];
+    SevenViewController *seven = [SevenViewController new];
+    //    [self.navigationController pushViewController:thirdVC animated:YES];
+    [self presentViewController:seven animated:YES completion:nil];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -61,10 +64,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    NSLog(@"indexPathArray:%@",_indexPathArray);
-//    [_indexPathArray addObject:indexPath];
-    NSLog(@"nextViewController:%ld,%ld",(long)indexPath.row,(long)indexPath.section);
-    NSLog(@"Next TableVIew did Select");
+    //    NSLog(@"indexPathArray:%@",_indexPathArray);
+    //    [_indexPathArray addObject:indexPath];
+    NSLog(@"Six TableView did Select");
+    NSLog(@"Six TableView:%ld,%ld",(long)indexPath.row,(long)indexPath.section);
+    
     //    TraverseViewC *tra = [[TraverseViewC alloc]init];
     //    [tra handleTableView:self];
     
@@ -112,9 +116,9 @@
     [_dataTable setDataSource:self];
     [self.view addSubview:_dataTable];
     
-    _dataArray1 = [[NSMutableArray alloc]initWithObjects:@"China",@"American",@"English", nil];
-    _dataArray2 = [[NSMutableArray alloc]initWithObjects:@"Yellow",@"Black",@"White", nil];
-    _titleArray = [[NSMutableArray alloc]initWithObjects:@"country",@"race", nil];
+    _dataArray1 = [[NSMutableArray alloc]initWithObjects:@"China1",@"American1",@"English1", nil];
+    _dataArray2 = [[NSMutableArray alloc]initWithObjects:@"Yellow1",@"Black1",@"White1", nil];
+    _titleArray = [[NSMutableArray alloc]initWithObjects:@"country1",@"race1", nil];
     _indexPathArray = [[NSMutableArray alloc]init];
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -125,26 +129,5 @@
     [button setTitle:@"turn" forState:UIControlStateNormal];
     [self.view addSubview:button];
     [button addTarget:self action:@selector(turn) forControlEvents:UIControlEventTouchUpInside];
-    
-//        NSString *className = @"NextViewController";
-//        static dispatch_once_t onceToken;
-//        dispatch_once(&onceToken, ^{
-//            Class class = NSClassFromString(@"NextViewController");
-//            
-//            SEL originalSelector = @selector(tableView:didSelectRowAtIndexPath:);
-//            SEL swizzleSelector = @selector(LSD_tableView:didSelectRowAtIndexPath:);
-//            
-//            Method originalMethod = class_getInstanceMethod(class, originalSelector);
-//            Method swizzleMethod = class_getInstanceMethod(class, swizzleSelector);
-//            
-//            BOOL didAddMethod = class_addMethod(class, originalSelector, method_getImplementation(swizzleMethod), method_getTypeEncoding(swizzleMethod));
-//            if (didAddMethod) {
-//                class_replaceMethod(class, swizzleSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
-//            }else{
-//                method_exchangeImplementations(originalMethod, swizzleMethod);
-//            }
-//        });
-
-     }
-
+}
 @end
