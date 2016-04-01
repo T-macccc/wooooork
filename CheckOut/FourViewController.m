@@ -44,7 +44,7 @@
     [button addTarget:self action:@selector(turn) forControlEvents:UIControlEventTouchUpInside];
     button.frame = CGRectMake(300, 300, 100, 50);
     
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithTitle:@"right" style:UIBarButtonItemStyleDone target:self action:@selector(test)];
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithTitle:@"right" style:UIBarButtonItemStyleDone target:self action:@selector(turn)];
     self.navigationItem.rightBarButtonItem = rightButton;
     UINavigationBar *bar = self.navigationController.navigationBar;
     
@@ -57,7 +57,8 @@
 - (void)turn{
     ViewController *view = [ViewController new];
     SixViewController *six = [SixViewController new];
-    [self presentViewController:six animated:YES completion:nil];
+//    [self presentViewController:six animated:YES completion:nil];
+    [self.navigationController pushViewController:six animated:YES];
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -70,6 +71,7 @@
     NSLog(@"Four_Collection");
     CollectionViewCell *cell = (CollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
+    [self test];
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{

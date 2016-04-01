@@ -33,28 +33,60 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CheckOut/NextViewController.m"
-            timestampString = "481096960.415873"
+            filePath = "../../ios_sdk-git/lib/Lotuseed/Lotuseed/LSDMonitoring.m"
+            timestampString = "481196856.691699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "359"
+            endingLineNumber = "359"
+            landmarkName = "+getControlPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../ios_sdk-git/lib/Lotuseed/Lotuseed/LSDMonitoring.m"
-            timestampString = "481116459.017954"
+            timestampString = "481195466.567985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "531"
-            endingLineNumber = "531"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "+viewControllerChanged"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../ios_sdk-git/lib/Lotuseed/Lotuseed/LSDMonitoring.m"
+            timestampString = "481195466.567985"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "-invokeLotuseed:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../ios_sdk-git/lib/Lotuseed/Lotuseed/LSDMonitoring.m"
+            timestampString = "481196856.691699"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "587"
+            endingLineNumber = "587"
             landmarkName = "-getChildObj:"
             landmarkType = "5">
          </BreakpointContent>
@@ -66,27 +98,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../ios_sdk-git/lib/Lotuseed/Lotuseed/LSDMonitoring.m"
-            timestampString = "481116459.017954"
+            timestampString = "481196566.691421"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "571"
-            endingLineNumber = "571"
-            landmarkName = "-getChildObj:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../ios_sdk-git/lib/Lotuseed/Lotuseed/LSDMonitoring.m"
-            timestampString = "481116459.017954"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "+addSelector"
             landmarkType = "5">
          </BreakpointContent>

@@ -34,17 +34,17 @@
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     
     ViewController *viewController = [[ViewController alloc]init];
-//    UINavigationController *nav0 = [[UINavigationController alloc]initWithRootViewController:viewController];
-//    nav0.title = @"first";
-    viewController.title = @"1";
+    UINavigationController *nav0 = [[UINavigationController alloc]initWithRootViewController:viewController];
+    nav0.title = @"first";
+//    viewController.title = @"1";
     
     NextViewController *nextViewController = [[NextViewController alloc]init];
-//    UINavigationController *nav1 = [[UINavigationController alloc]initWithRootViewController:nextViewController];
-//    nav1.title = @"second";
-    nextViewController.title = @"2";
+    UINavigationController *nav1 = [[UINavigationController alloc]initWithRootViewController:nextViewController];
+    nav1.title = @"second";
+//    nextViewController.title = @"2";
     
-    [tb addChildViewController:viewController];
-    [tb addChildViewController:nextViewController];
+    [tb addChildViewController:nav0];
+    [tb addChildViewController:nav1];
     
     self.window.rootViewController = tb;
     [self.window makeKeyAndVisible];

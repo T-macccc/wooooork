@@ -16,14 +16,16 @@
 
 @implementation NextViewController
 
+- (void)print{
+    NSLog(@"just i can");
+}
 
-
-- (void)turn{
-//    ThirdViewController *thirdVC = [ThirdViewController new];
+- (void)turn1{
+    ThirdViewController *thirdVC = [ThirdViewController new];
     FourViewController *four = [FourViewController new];
     
-//    [self.navigationController pushViewController:thirdVC animated:YES];
-    [self presentViewController:four animated:YES completion:nil];
+    [self.navigationController pushViewController:four animated:YES];
+//    [self presentViewController:four animated:YES completion:nil];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -67,6 +69,7 @@
     NSLog(@"Next TableVIew did Select");
     //    TraverseViewC *tra = [[TraverseViewC alloc]init];
     //    [tra handleTableView:self];
+    [self print];
     
 }
 
@@ -97,12 +100,16 @@
 //    [self LSD_tableView:tableView didSelectRowAtIndexPath:indexPath];
 //}
 
+- (void)turn{
+    NSLog(@"i'm turning");
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor cyanColor];
     
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc]initWithTitle:@"third" style:UIBarButtonItemStylePlain target:self action:@selector(turn)];
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc]initWithTitle:@"third" style:UIBarButtonItemStylePlain target:self action:@selector(turn1)];
     
     self.navigationItem.rightBarButtonItem = leftButton;
     
@@ -122,7 +129,7 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setFrame:CGRectMake(200, 400, 100, 50)];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [button setTitle:@"turn" forState:UIControlStateNormal];
+    [button setTitle:@"turn1" forState:UIControlStateNormal];
     [self.view addSubview:button];
     [button addTarget:self action:@selector(turn) forControlEvents:UIControlEventTouchUpInside];
     

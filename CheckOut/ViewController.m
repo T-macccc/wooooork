@@ -32,11 +32,14 @@
 }
 
 - (void)turn{
-    FourViewController *four =  [[FourViewController alloc]init];
+//    FourViewController *four =  [[FourViewController alloc]init];
     NextViewController *next = [NextViewController new];
-    
+//
+    NSLog(@"VC_self:%@",self);
+
     [self.navigationController pushViewController:next animated:YES];
 //    [self presentViewController:next animated:YES completion:nil];
+    NSLog(@"VC_turn");
 }
 
 - (void)action0{
@@ -52,7 +55,7 @@
     
     self.view.backgroundColor = [UIColor yellowColor];
     
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithTitle:@"four" style:UIBarButtonItemStylePlain target:self action:@selector(turn)];
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(turn)];
     
     self.navigationItem.rightBarButtonItem = rightButton;
     
@@ -66,7 +69,7 @@
     [button0 setTitle:@"0" forState:UIControlStateNormal];
     [button0 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [view addSubview:button0];
-    [button0 addTarget:self action:@selector(action0) forControlEvents:UIControlEventTouchUpInside];
+    [button0 addTarget:self action:@selector(turn) forControlEvents:UIControlEventTouchUpInside];
     button0.backgroundColor = [UIColor greenColor];
     
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];

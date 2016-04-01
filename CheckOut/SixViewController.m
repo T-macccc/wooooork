@@ -25,8 +25,8 @@
     //    ThirdViewController *thirdVC = [ThirdViewController new];
     FourViewController *four = [FourViewController new];
     SevenViewController *seven = [SevenViewController new];
-    //    [self.navigationController pushViewController:thirdVC animated:YES];
-    [self presentViewController:seven animated:YES completion:nil];
+        [self.navigationController pushViewController:seven animated:YES];
+//    [self presentViewController:seven animated:YES completion:nil];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -108,7 +108,7 @@
     
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc]initWithTitle:@"third" style:UIBarButtonItemStylePlain target:self action:@selector(turn)];
     
-    self.navigationItem.leftBarButtonItem = leftButton;
+    self.navigationItem.rightBarButtonItem = leftButton;
     
     _dataTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width)];
     
