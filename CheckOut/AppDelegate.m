@@ -30,7 +30,7 @@
     
 //
     UITabBarController *tb = [UITabBarController new];
-    
+//
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     
     ViewController *viewController = [[ViewController alloc]init];
@@ -49,6 +49,15 @@
     self.window.rootViewController = tb;
     [self.window makeKeyAndVisible];
 //
+    
+//    ViewController *viewC = [ViewController new];
+//    
+//    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:viewC];
+//    
+//    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+//    
+//    self.window.rootViewController = nav;
+//    [self.window makeKeyWindow];
     
     // Override point for customization after application launch.
     return YES;

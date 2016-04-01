@@ -104,7 +104,7 @@
     
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc]initWithTitle:@"third" style:UIBarButtonItemStylePlain target:self action:@selector(turn)];
     
-    self.navigationItem.leftBarButtonItem = leftButton;
+    self.navigationItem.rightBarButtonItem = leftButton;
     
     _dataTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width)];
     
