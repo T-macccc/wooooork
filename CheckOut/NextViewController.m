@@ -14,6 +14,8 @@
 #import "TableViewCell.h"
 #import <objc/runtime.h>
 
+#import "FiveViewController.h"
+
 @implementation NextViewController
 
 - (void)print{
@@ -67,6 +69,13 @@
 //    [_indexPathArray addObject:indexPath];
     NSLog(@"nextViewController:%ld,%ld",(long)indexPath.row,(long)indexPath.section);
     NSLog(@"Next TableVIew did Select");
+//    if (indexPath.row == 0) {
+//        FiveViewController *tof = [FiveViewController new];
+//        [self.navigationController pushViewController:tof animated:YES];
+//    }else if (indexPath.row == 1){
+//        FiveViewController *tos = [FiveViewController new];
+//        [self.navigationController pushViewController:tos animated:YES];
+//    }
     //    TraverseViewC *tra = [[TraverseViewC alloc]init];
     //    [tra handleTableView:self];
     [self print];
